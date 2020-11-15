@@ -10,7 +10,7 @@ const notes = [
 ];
 
 app.get("/", (req, res) => {
-    res.send("Welcome to notes app.")
+    res.status(200).send();
 });
 
 // Get all notes
