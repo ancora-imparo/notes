@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from 'react';
+import SplitPane from 'react-split-pane';
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+export default class Edit extends Component { 
+  render () { 
+    return (
+      <SplitPane split="vertical" minSize={500} primary="first">
+      
+          <div className="App-header" style={{backgroundColor: '#bbbb'}}>Left Pane</div>
+          <div className="App-header" style={{backgroundColor: 'lightblue'}}>Right Pane</div>
+         
+        </SplitPane>
+      );
+        
+  }
 }
-
-export default App;
+          
