@@ -4,10 +4,16 @@ const app = express();
 
 app.use(express.json());
 
+var store = require('json-fs-store')('/home/kartik/New Voume'); //path to store
 
-const notes = [
+const note0 = [
     {id: 0, title: "Demo note", created: Date(), lastUpdated: "some time", noteContent: "Welcome, this is a demo note."}
 ];
+var length = 0;
+
+store.add(note0, function(err) {
+  if (err) throw err; // err if the save failed
+});
 
 app.get("/", (req, res) => {
     res.status(200).send();
@@ -15,14 +21,19 @@ app.get("/", (req, res) => {
 
 // Get all notes
 app.get("/notes", (req, res) => {
-    res.send(notes);
-});
+  store.list(function(err, objects) {
+    if (err) throw err;
+    res.send(objects);
+  });
+  });
 
 // Get notes by id
 app.get("/notes/:id", (req, res) => {
-  const note = notes.find((c) => c.id === parseInt(req.params.id));
-  if (!note) res.status(404).send("Not Found");
-  res.send(note);
+  store.load(req.params['id'], function(err, object){
+  if(err) res.status(404).send() // err if JSON parsing failed
+  res.send(object);
+
+  });
 });
 
 // Validation
@@ -38,15 +49,19 @@ function validatenote(note) {
 app.post("/notes", (req, res) => {
   const { error } = validatenote(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
+  length++;
   const note = {
-    id: notes.length + 1,
+    id: length,
     title: req.body.title,
     created: Date(),
     lastUpdated : Date(),
     noteContent: req.body.noteContent,
   };
-  notes.push(note);
+  
+  store.add(note, function(err) {
+    if (err) throw err; // err if the save failed
+  });
+
   res.status(200).send();
 });
 
