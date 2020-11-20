@@ -11,6 +11,7 @@ demoNote = {
   lastUpdated: "some time",
   noteContent: "Welcome, this is a demo note.",
 };
+
 (async () => {
   const notes = await store.readNotes();
   notes.push(demoNote);
@@ -22,29 +23,27 @@ app.get("/", (req, res) => {
 });
 
 // Get all notes
-app.get("/notes", (req, res) => {
-  (async () => {
-    const notes = await store.readNotes();
-    res.status(200).send(notes);
-  })();
+app.get("/notes", async (req, res) => {
+  const notes = await store.readNotes();
+  res.status(200).send(notes);
 });
 
 // Get notes by id
-app.get("/notes/:id", (req, res) => {
-  (async () => {
-    const notes = await store.readNotes();
-    const id = req.params["id"];
+app.get("/notes/:id", async (req, res) => {
+  const notes = await store.readNotes();
+  const id = parseInt(req.params["id"]);
 
-    var note = notes.filter(function (element) {
-      if (element.id == id) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (!!note) res.status(404).send("Not Found");
-    res.status(200).send(note);
-  })();
+  let note = notes.filter(function (element) {
+    if (element.id === id) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  if (!Array.isArray(note) || !note.length) {
+    res.status(404).send("Not Found");
+  }
+  res.status(200).send(note);
 });
 
 // Validation
@@ -57,24 +56,23 @@ function validatenote(note) {
 }
 
 //post: Making a new note
-app.post("/notes", (req, res) => {
+app.post("/notes", async (req, res) => {
   const { error } = validatenote(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  (async () => {
-    const notes = await store.readNotes();
+  const notes = await store.readNotes();
 
-    const note = {
-      id: notes.length + 1,
-      title: req.body.title,
-      created: Date(),
-      lastUpdated: Date(),
-      noteContent: req.body.noteContent,
-    };
+  const note = {
+    id: notes.length + 1,
+    title: req.body.title,
+    created: Date(),
+    lastUpdated: Date(),
+    noteContent: req.body.noteContent,
+  };
 
-    notes.push(note);
-    await store.writeNotes(notes);
-  })();
+  notes.push(note);
+  await store.writeNotes(notes);
+
   res.status(200).send();
 });
 
