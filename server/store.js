@@ -1,5 +1,7 @@
 const FsPromise = require("fs").promises;
 
+FsPromise.writeFile("data.json", "[]");
+
 module.exports = {
   readNotes: async function (filepath = "./data.json") {
     const notes = await FsPromise.readFile(filepath);

@@ -2,21 +2,11 @@ const express = require("express");
 const Joi = require("joi");
 const app = express();
 const store = require("./store.js");
+const demoNote = require("./demoNote.js");
+
 app.use(express.json());
 
-demoNote = {
-  id: 0,
-  title: "Demo note",
-  created: Date(),
-  lastUpdated: "some time",
-  noteContent: "Welcome, this is a demo note.",
-};
-
-(async () => {
-  const notes = await store.readNotes();
-  notes.push(demoNote);
-  await store.writeNotes(notes);
-})();
+demoNote.makeDemoNote();
 
 app.get("/", (req, res) => {
   res.status(200).send();
@@ -33,17 +23,12 @@ app.get("/notes/:id", async (req, res) => {
   const notes = await store.readNotes();
   const id = parseInt(req.params["id"]);
 
-  let note = notes.filter(function (element) {
-    if (element.id === id) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-  if (!Array.isArray(note) || !note.length) {
+  const note = notes.find((element) => element.id === id);
+  if (!note) {
     res.status(404).send("Not Found");
+  } else {
+    res.status(200).send(note);
   }
-  res.status(200).send(note);
 });
 
 // Validation
