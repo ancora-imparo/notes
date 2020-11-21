@@ -2,11 +2,8 @@ const express = require("express");
 const Joi = require("joi");
 const app = express();
 const store = require("./store.js");
-const demoNote = require("./demoNote.js");
 
 app.use(express.json());
-
-demoNote.makeDemoNote();
 
 app.get("/", (req, res) => {
   res.status(200).send();
