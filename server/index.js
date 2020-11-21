@@ -18,8 +18,7 @@ app.get("/notes", async (req, res) => {
 // Get notes by id
 app.get("/notes/:id", async (req, res) => {
   const notes = await store.readNotes();
-  const id = parseInt(req.params["id"]);
-
+  const id = parseInt(req.params["id"], 10);
   const note = notes.find((element) => element.id === id);
   if (!note) {
     res.status(404).send("Not Found");
@@ -52,6 +51,14 @@ app.post("/notes", async (req, res) => {
     noteContent: req.body.noteContent,
   };
 
+  const noteExist = notes.find((element) => element.id === note.id);
+  if (noteExist) {
+    note.id =
+      Math.max.apply(
+        Math,
+        notes.map((item) => item.id)
+      ) + 1;
+  }
   notes.push(note);
   await store.writeNotes(notes);
 
