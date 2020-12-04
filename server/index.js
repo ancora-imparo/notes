@@ -1,9 +1,7 @@
-const express = require("express");
+const app = require("./app");
 const Joi = require("joi");
-const app = express();
-const store = require("./store.js");
 
-app.use(express.json());
+const store = require("./store.js");
 
 app.get("/", (req, res) => {
   res.status(200).send();
