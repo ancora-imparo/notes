@@ -1,3 +1,4 @@
+import React from 'react';
 import { Component } from 'react';
 import SplitPane from 'react-split-pane';
 import Button from '@material-ui/core/Button';
@@ -7,14 +8,20 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
 }));
+
+function stringCheck(string) {
+  if(string.lenght > 20) 
+    string = string.substring(0, 20);
+  return string;
+}
 
 export default class Edit extends Component { 
   render () { 
@@ -32,7 +39,10 @@ export default class Edit extends Component {
               </ListItem>
               <Divider variant="primary" component="li" />
               <ListItem alignItems="flex-start" button>
-                <ListItemText primary="Your name" secondary={"Contrary to popular belief, Lorem Ipsum is not simply random text. "}/>
+                <ListItemText primary="Your name"
+                  secondary=
+                    {stringCheck("Lorem Ipsum is simply dummy text of the printing and typesetting industry.")}
+                  />
               </ListItem>
               <Divider variant="primary" component="li" />
               <ListItem button>
