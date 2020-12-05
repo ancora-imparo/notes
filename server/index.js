@@ -1,7 +1,8 @@
-const app = require("./app");
+const express = require("express");
+const app = express();
 const Joi = require("joi");
-require("dotenv").config();
 const store = require("./store.js");
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.status(200).send();
@@ -63,5 +64,4 @@ app.post("/notes", async (req, res) => {
   res.status(200).send();
 });
 
-const port = process.env.SERVER_PORT;
-app.listen(port, () => console.log(`Listening at port ${port} ...`));
+module.exports = app;
