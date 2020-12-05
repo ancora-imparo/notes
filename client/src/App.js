@@ -4,10 +4,7 @@ import SplitPane from 'react-split-pane';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-
+import NotesList from './NotesList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,11 +14,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function stringCheck(string) {
-  if(string.lenght > 20) 
-    string = string.substring(0, 20);
-  return string;
-}
+//function stringCheck(string) {
+  //if(string.lenght > 20) 
+    //string = string.substring(0, 20);
+  //return string;
+//}
 
 export default class Edit extends Component { 
   render () { 
@@ -33,30 +30,7 @@ export default class Edit extends Component {
               add note
             </Button>
             <List component="nav" className={useStyles.root} aria-label="contacts">
-              <ListItem button>
-                <ListItemText primary="Weathering with you" 
-                secondary= {"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}/>
-              </ListItem>
-              <Divider variant="primary" component="li" />
-              <ListItem alignItems="flex-start" button>
-                <ListItemText primary="Your name"
-                  secondary=
-                    {stringCheck("Lorem Ipsum is simply dummy text of the printing and typesetting industry.")}
-                  />
-              </ListItem>
-              <Divider variant="primary" component="li" />
-              <ListItem button>
-                <ListItemText primary="Crash Landing on You" />
-              </ListItem>
-              <Divider variant="primary" component="li" />
-              <ListItem button>
-                <ListItemText primary="A Girl who leapt through time" />
-              </ListItem>
-              <Divider variant="primary" component="li" />
-              <ListItem button>
-                <ListItemText primary="Howl's moving castle" />
-              </ListItem>
-              <Divider variant="primary" component="li" />
+              {NotesList}
             </List>
           </div>
           <div style={{backgroundColor: 'lightblue', height:"100vh"}}>Right Pane</div>
