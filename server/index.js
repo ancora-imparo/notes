@@ -1,6 +1,6 @@
 const app = require("./app");
 const Joi = require("joi");
-
+require("dotenv").config();
 const store = require("./store.js");
 
 app.get("/", (req, res) => {
@@ -63,5 +63,5 @@ app.post("/notes", async (req, res) => {
   res.status(200).send();
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.SERVER_PORT;
 app.listen(port, () => console.log(`Listening at port ${port} ...`));
