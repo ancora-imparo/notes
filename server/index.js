@@ -1,8 +1,7 @@
 const express = require("express");
-const Joi = require("joi");
 const app = express();
+const Joi = require("joi");
 const store = require("./store.js");
-
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -65,5 +64,20 @@ app.post("/notes", async (req, res) => {
   res.status(200).send();
 });
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Listening at port ${port} ...`));
+// Delete note by id
+app.delete("/notes/:id", async (req, res) => {
+  const notes = await store.readNotes();
+  const id = parseInt(req.params["id"], 10);
+  const noteExist = notes.find((element) => element.id === id);
+  if (noteExist) {
+    const updatedNotes = notes.filter((element) => {
+      return element.id !== id;
+    });
+    await store.writeNotes(updatedNotes);
+    res.status(200).send();
+  } else {
+    res.status(400).send("Bad request");
+  }
+});
+
+module.exports = app;
