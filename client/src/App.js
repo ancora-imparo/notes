@@ -14,11 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//function stringCheck(string) {
-  //if(string.lenght > 20) 
-    //string = string.substring(0, 20);
-  //return string;
-//}
+
 
 export default class Edit extends Component { 
   render () { 
@@ -30,7 +26,7 @@ export default class Edit extends Component {
               add note
             </Button>
             <List component="nav" className={useStyles.root} aria-label="contacts">
-              {NotesList}
+              <NotesList/>
             </List>
           </div>
           <div style={{backgroundColor: 'lightblue', height:"100vh"}}>Right Pane</div>

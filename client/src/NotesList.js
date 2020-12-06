@@ -25,9 +25,14 @@ function NotesList() {
             noteContent: "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
         }
     ]
+    function stringCheck(str) {
+        if(str.lenght > 10) 
+            str = str.substring(1, 10);
+        return str;
+    }
     const List = notes.map(note => (
         <ListItem button>
-            <ListItemText primary={notes.title}></ListItemText>
+            <ListItemText primary={note.title} secondary={stringCheck("Lorem Ipsum is simply dummy text of the printing and typesetting industry.")}></ListItemText>
         </ListItem>
     ))
 
