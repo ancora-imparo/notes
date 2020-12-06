@@ -6,7 +6,7 @@ describe("http requests testing", () => {
     const response = await request(app).get("/notes");
     expect(response.statusCode).toBe(200);
 
-    noteJson = response.body;
+    const noteJson = response.body;
     expect(noteJson).toStrictEqual([]);
   });
 });
@@ -21,7 +21,7 @@ test("Initial POST request", async () => {
 test("GET request after POST", async () => {
   const response = await request(app).get("/notes");
   expect(response.statusCode).toStrictEqual(200);
-  noteJson = response.body;
+  const noteJson = response.body;
   expect(noteJson.length).toStrictEqual(1);
   expect(noteJson[0].title).toBe("1st");
   expect(noteJson[0].noteContent).toBe("This is First note");
@@ -38,7 +38,7 @@ test("POST request for second note", async () => {
 test("GET request after second note is added", async () => {
   const response = await request(app).get("/notes");
   expect(response.statusCode).toStrictEqual(200);
-  noteJson = response.body;
+  const noteJson = response.body;
   expect(noteJson.length).toStrictEqual(2);
   expect(noteJson[1].title).toBe("2nd");
   expect(noteJson[1].noteContent).toBe("This is Second note");
@@ -47,7 +47,7 @@ test("GET request after second note is added", async () => {
 test("GET request of second note by id", async () => {
   const response = await request(app).get("/notes/2");
   expect(response.statusCode).toStrictEqual(200);
-  noteJson = response.body;
+  const noteJson = response.body;
   expect(noteJson.title).toBe("2nd");
   expect(noteJson.noteContent).toBe("This is Second note");
 });
