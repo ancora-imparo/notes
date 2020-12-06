@@ -70,10 +70,10 @@ app.delete("/notes/:id", async (req, res) => {
   const id = parseInt(req.params["id"], 10);
   const noteExist = notes.find((element) => element.id === id);
   if (noteExist) {
-    const updated_notes = notes.filter((element) => {
+    const updatedNotes = notes.filter((element) => {
       return element.id !== id;
     });
-    await store.writeNotes(updated_notes);
+    await store.writeNotes(updatedNotes);
     res.status(200).send();
   } else {
     res.status(400).send("Bad request");
