@@ -5,7 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import { NotesList } from "./NotesList";
 import Menu from "./Menu";
-import Body from "./Body";
+import {NoteContent} from "./NoteContent";
+import { NotInterested } from "@material-ui/icons";
 
 export const App = () => {
   const useStyles = makeStyles((theme) => ({
@@ -19,27 +20,33 @@ export const App = () => {
     {
       id: 0,
       title: "Weathering with you",
-      created: JSON.stringify(Date()),
-      lastUpdated: JSON.stringify(Date()),
+      created: Date(),
+      lastUpdated: Date(),
       noteContent: "Welcome, this is a demo note.",
     },
     {
       id: 1,
       title: "Howl's moving castle",
-      created: JSON.stringify(Date()),
-      lastUpdated: JSON.stringify(Date()),
+      created: Date(),
+      lastUpdated: Date(),
       noteContent:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
     {
       id: 2,
       title: "Crash landing on you",
-      created: JSON.stringify(Date()),
-      lastUpdated: JSON.stringify(Date()),
+      created:Date(),
+      lastUpdated: Date(),
       noteContent:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
   ]);
+
+  const [selectedId, setSelectedId] = useState();
+  const noteSelected = notes.find((note) => note.id === selectedId);
+  
+  const handleNoteSelect = (id) => {setSelectedId(id)
+  };
 
   return (
     <SplitPane split='vertical' minSize={500} primary='first'>
@@ -48,11 +55,11 @@ export const App = () => {
           add note
         </Button>
         <List component='nav' className={useStyles.root} aria-label='contacts'>
-          <NotesList notes={notes} />
+          <NotesList notes={notes} handleNoteSelect={handleNoteSelect}/>
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
-        <Body />
+        <NoteContent noteSelected={noteSelected}/>
         <div
           style={{
             backgroundColor: "turquoise",
@@ -60,7 +67,7 @@ export const App = () => {
             bottom: "0px",
             width: "100%",
           }}>
-          <Menu />
+          <Menu noteSelected={noteSelected}/>
         </div>
       </div>
     </SplitPane>

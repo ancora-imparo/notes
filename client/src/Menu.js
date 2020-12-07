@@ -1,8 +1,11 @@
 import React from "react";
-function Menu() {
+
+const Menu = (props) => {
+  const {noteSelected} = props;
+  const checkCreated = noteSelected ? noteSelected.created : " ";
   return (
     <div>
-      <button>Save</button> {JSON.stringify(Date())} <button>Cancel</button>
+      <button>Cancel</button> {checkCreated} <button>Save</button>
     </div>
   );
 }
