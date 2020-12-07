@@ -16,16 +16,15 @@ const useStyles = makeStyles((theme) => ({
 export default class Edit extends Component {
   render() {
     return (
-      <SplitPane split="vertical" minSize={500} primary="first">
+      <SplitPane split='vertical' minSize={500} primary='first'>
         <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
-          <Button variant="contained" color="primary">
+          <Button variant='contained' color='primary'>
             add note
           </Button>
           <List
-            component="nav"
+            component='nav'
             className={useStyles.root}
-            aria-label="contacts"
-          >
+            aria-label='contacts'>
             <NotesList />
           </List>
         </div>
@@ -37,8 +36,7 @@ export default class Edit extends Component {
               position: "absolute",
               bottom: "0px",
               width: "100%",
-            }}
-          >
+            }}>
             <Menu />
           </div>
         </div>

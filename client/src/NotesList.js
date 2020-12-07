@@ -36,8 +36,7 @@ function NotesList() {
     <ListItem key={note.id} button>
       <ListItemText
         primary={note.title}
-        secondary={stringCheck(note.noteContent)}
-      ></ListItemText>
+        secondary={stringCheck(note.noteContent)}></ListItemText>
     </ListItem>
   ));
 
