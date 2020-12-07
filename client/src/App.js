@@ -1,20 +1,48 @@
-import { Component } from 'react';
-import SplitPane from 'react-split-pane';
-import './App.css'
-
-
-
-export default class Edit extends Component { 
-  render () { 
+import React from "react";
+import { Component } from "react";
+import SplitPane from "react-split-pane";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import NotesList from "./NotesList";
+import Menu from "./Menu";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+export default class Edit extends Component {
+  render() {
     return (
       <SplitPane split="vertical" minSize={500} primary="first">
-      
-          <div className="App-header" style={{backgroundColor: '#bbbb'}}>Left Pane</div>
-          <div className="App-header" style={{backgroundColor: 'lightblue'}}>Right Pane</div>
-         
-        </SplitPane>
-      );
-        
+        <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
+          <Button variant="contained" color="primary">
+            add note
+          </Button>
+          <List
+            component="nav"
+            className={useStyles.root}
+            aria-label="contacts"
+          >
+            <NotesList />
+          </List>
+        </div>
+        <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
+          Right Pane
+          <div
+            style={{
+              backgroundColor: "turquoise",
+              position: "absolute",
+              bottom: "0px",
+              width: "100%",
+            }}
+          >
+            <Menu />
+          </div>
+        </div>
+      </SplitPane>
+    );
   }
 }
-          
