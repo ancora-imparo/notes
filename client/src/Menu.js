@@ -2,10 +2,11 @@ import React from "react";
 
 const Menu = (props) => {
   const {noteSelected} = props;
-  const checkCreated = noteSelected ? noteSelected.created : " ";
+  let options = { hour:'2-digit', minute:'2-digit', year: 'numeric', month: 'short', day: 'numeric' };
+  const checkCreated = noteSelected ? new Date(noteSelected.created).toLocaleString('en-US',options,{hour12:true}) : " ";
   return (
     <div>
-      <button>Cancel</button> {checkCreated} <button>Save</button>
+      <button>Cancel</button> {checkCreated} <button style={ {float:"right"}}>Save</button>
     </div>
   );
 }

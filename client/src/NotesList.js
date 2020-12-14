@@ -1,6 +1,7 @@
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Typography from '@material-ui/core/Typography';
 
 export const NotesList = (props) => {
   const {notes, handleNoteSelect} = props;
@@ -14,8 +15,17 @@ export const NotesList = (props) => {
     
     <ListItem key={note.id} button onClick={() => {handleNoteSelect(note.id)}}>
       <ListItemText
-        primary={note.title}
-        secondary={stringCheck(note.noteContent)}></ListItemText>
+        primary={note.title} 
+        secondary={<div>
+          <div> {stringCheck(note.noteContent)} </div>
+          <div style={ {float:"right"}}>{new Date(note.created).toLocaleDateString()}</div>
+          </div>}
+          
+          
+          
+          
+          
+          ></ListItemText>
     </ListItem>
   ));
 
