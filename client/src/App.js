@@ -5,8 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import { NotesList } from "./NotesList";
 import Menu from "./Menu";
-import {NoteContent} from "./NoteContent";
-import { NotInterested } from "@material-ui/icons";
+import { NoteContent } from "./NoteContent";
 
 export const App = () => {
   const useStyles = makeStyles((theme) => ({
@@ -35,7 +34,7 @@ export const App = () => {
     {
       id: 2,
       title: "Crash landing on you",
-      created:Date(),
+      created: Date(),
       lastUpdated: Date(),
       noteContent:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -44,8 +43,9 @@ export const App = () => {
 
   const [selectedId, setSelectedId] = useState();
   const noteSelected = notes.find((note) => note.id === selectedId);
-  
-  const handleNoteSelect = (id) => {setSelectedId(id)
+
+  const handleNoteSelect = (id) => {
+    setSelectedId(id);
   };
 
   return (
@@ -55,11 +55,11 @@ export const App = () => {
           add note
         </Button>
         <List component='nav' className={useStyles.root} aria-label='contacts'>
-          <NotesList notes={notes} handleNoteSelect={handleNoteSelect}/>
+          <NotesList notes={notes} handleNoteSelect={handleNoteSelect} />
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
-        <NoteContent noteSelected={noteSelected}/>
+        <NoteContent noteSelected={noteSelected} />
         <div
           style={{
             backgroundColor: "turquoise",
@@ -67,7 +67,7 @@ export const App = () => {
             bottom: "0px",
             width: "100%",
           }}>
-          <Menu noteSelected={noteSelected}/>
+          <Menu noteSelected={noteSelected} />
         </div>
       </div>
     </SplitPane>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
@@ -15,32 +15,43 @@ export const NoteContent = (props) => {
 
   const classes = useStyles();
   const checkTitle = noteSelected ? noteSelected.title : " ";
-  const [value, setValue] = React.useState(checkTitle);
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const [title, setTitle] = useState(checkTitle);
+  const checkNoteContent = noteSelected ? noteSelected.noteContent : " ";
+  const [content, setContent] = useState(checkNoteContent);
+
+  useEffect(() => {
+    setTitle(checkTitle);
+    setContent(checkNoteContent);
+  }, [noteSelected]);
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+  const handleContentChange = (event) => {
+    setContent(event.target.value);
   };
   return (
     <div>
-        <div>
-          <TextField
-            id='standard-multiline-flexible'
-            label='Title'
-            fullWidth
-            onChange={handleChange}
-          />
-          <TextField
-            id='standard-full-width'
-            style={{ margin: 8 }}
-            rowsMax={40}
-            placeholder='This is a note'
-            fullWidth
-            multiline
-            margin='normal'
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </div>
+      <div>
+        <TextField
+          id='title'
+          label='Title'
+          value={title}
+          fullWidth
+          onChange={handleTitleChange}
+        />
+        <TextField
+          id='content'
+          label='Content'
+          style={{ margin: 8 }}
+          margin='normal'
+          rowsMax={40}
+          value={content}
+          fullWidth
+          multiline
+          onChange={handleContentChange}
+        />
+      </div>
     </div>
   );
 };
