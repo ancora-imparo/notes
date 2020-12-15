@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Menu = (props) => {
   const { noteSelected } = props;
@@ -21,4 +22,10 @@ const Menu = (props) => {
     </div>
   );
 };
+Menu.propTypes = {
+  noteSelected: PropTypes.objectOf(
+    PropTypes.shape({ created: PropTypes.instanceOf(Date) })
+  ),
+};
+
 export default Menu;

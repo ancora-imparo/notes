@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import PropTypes from "prop-types";
 
 export const NoteContent = (props) => {
   const { noteSelected } = props;
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      "& .MuiTextField-root": {
-        margin: theme.spacing(1),
-        width: "25ch",
-      },
-    },
-  }));
 
-  const classes = useStyles();
   const checkTitle = noteSelected ? noteSelected.title : " ";
   const [title, setTitle] = useState(checkTitle);
   const checkNoteContent = noteSelected ? noteSelected.noteContent : " ";
@@ -34,17 +25,17 @@ export const NoteContent = (props) => {
     <div>
       <div>
         <TextField
-          id='title'
-          label='Title'
+          id="title"
+          label="Title"
           value={title}
           fullWidth
           onChange={handleTitleChange}
         />
         <TextField
-          id='content'
-          label='Content'
+          id="content"
+          label="Content"
           style={{ margin: 8 }}
-          margin='normal'
+          margin="normal"
           rowsMax={40}
           value={content}
           fullWidth
@@ -54,4 +45,9 @@ export const NoteContent = (props) => {
       </div>
     </div>
   );
+};
+NoteContent.propTypes = {
+  noteSelected: PropTypes.objectOf(
+    PropTypes.shape({ title: PropTypes.string, noteContent: PropTypes.string })
+  ),
 };

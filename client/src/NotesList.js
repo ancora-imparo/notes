@@ -1,7 +1,7 @@
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
+import PropTypes from "prop-types";
 
 export const NotesList = (props) => {
   const { notes, handleNoteSelect } = props;
@@ -10,14 +10,14 @@ export const NotesList = (props) => {
     return str;
   }
 
-  // eslint-disable-next-line react/prop-types
   const List = notes.map((note) => (
     <ListItem
       key={note.id}
       button
       onClick={() => {
         handleNoteSelect(note.id);
-      }}>
+      }}
+    >
       <ListItemText
         primary={note.title}
         secondary={
@@ -27,9 +27,14 @@ export const NotesList = (props) => {
               {new Date(note.created).toLocaleDateString()}
             </div>
           </div>
-        }></ListItemText>
+        }
+      ></ListItemText>
     </ListItem>
   ));
 
   return <div>{List}</div>;
+};
+NotesList.propTypes = {
+  notes: PropTypes.object,
+  handleNoteSelect: PropTypes.func,
 };
