@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SplitPane from "react-split-pane";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
+import axios from "axios";
+
 import { NotesList } from "./NotesList";
 import Menu from "./Menu";
 import { NoteContent } from "./NoteContent";
@@ -40,6 +42,16 @@ export const App = () => {
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
   ]);
+
+  useEffect(async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/notes`);
+      const get_notes = response.data;
+      setNotes(get_notes);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const [selectedId, setSelectedId] = useState();
   const noteSelected = notes.find((note) => note.id === selectedId);

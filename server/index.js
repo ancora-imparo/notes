@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const Joi = require("joi");
+var cors = require("cors");
+app.use(cors());
+
 const store = require("./store.js");
 app.use(express.json());
 

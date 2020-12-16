@@ -16,8 +16,7 @@ export const NotesList = (props) => {
       button
       onClick={() => {
         handleNoteSelect(note.id);
-      }}
-    >
+      }}>
       <ListItemText
         primary={note.title}
         secondary={
@@ -27,8 +26,7 @@ export const NotesList = (props) => {
               {new Date(note.created).toLocaleDateString()}
             </div>
           </div>
-        }
-      ></ListItemText>
+        }></ListItemText>
     </ListItem>
   ));
 
