@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
-
+import { Formik, Form } from "formik";
 export const NoteContent = (props) => {
   const { noteSelected } = props;
-
   const checkTitle = noteSelected ? noteSelected.title : " ";
   const [title, setTitle] = useState(checkTitle);
   const checkNoteContent = noteSelected ? noteSelected.noteContent : " ";
   const [content, setContent] = useState(checkNoteContent);
-
   useEffect(() => {
     setTitle(checkTitle);
     setContent(checkNoteContent);
   }, [noteSelected]);
-
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -22,8 +19,12 @@ export const NoteContent = (props) => {
     setContent(event.target.value);
   };
   return (
-    <div>
-      <div>
+    <Formik>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <TextField
           id="title"
           label="Title"
@@ -42,8 +43,8 @@ export const NoteContent = (props) => {
           multiline
           onChange={handleContentChange}
         />
-      </div>
-    </div>
+      </Form>
+    </Formik>
   );
 };
 NoteContent.propTypes = {
