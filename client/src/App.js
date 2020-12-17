@@ -28,17 +28,26 @@ export const App = () => {
     }
   }, []);
 
-  const [selectedId, setSelectedId] = useState();
-  const noteSelected = notes.find((note) => note.id === selectedId);
+  const [noteSelected, setNoteSelected] = useState();
+
   const handleNoteSelect = (id) => {
-    setSelectedId(id);
+    setNoteSelected(notes.find((note) => note.id === id));
   };
 
   return (
     <SplitPane split="vertical" minSize={500} primary="first">
       <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
-        <Button variant="contained" color="primary">
-          add note
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            setNoteSelected({
+              title: "",
+              noteContent: "",
+              created: Date(),
+            });
+          }}>
+          Add Note
         </Button>
         <List component="nav" className={useStyles.root} aria-label="contacts">
           <NotesList notes={notes} handleNoteSelect={handleNoteSelect} />

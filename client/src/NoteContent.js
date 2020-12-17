@@ -44,8 +44,8 @@ export const NoteContent = (props) => {
   return (
     <Formik>
       <Form
-        onSubmit={() => {
-          axios
+        onSubmit={async () => {
+          await axios
             .post(`http://localhost:5000/notes`, {
               title: title,
               noteContent: content,
@@ -58,7 +58,7 @@ export const NoteContent = (props) => {
               console.log(err);
             });
         }}
-      >
+        >
         <TextField
           id="title"
           label="Title"
@@ -84,7 +84,7 @@ export const NoteContent = (props) => {
             bottom: "0px",
             width: "100%",
           }}
-        >
+          >
           <button>Cancel</button> {checkCreated}{" "}
           <button style={{ float: "right" }} type="submit">
             Save
