@@ -30,7 +30,6 @@ export const App = () => {
 
   const [selectedId, setSelectedId] = useState();
   const noteSelected = notes.find((note) => note.id === selectedId);
-
   const handleNoteSelect = (id) => {
     setSelectedId(id);
   };
@@ -46,7 +45,7 @@ export const App = () => {
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
-        <NoteContent noteSelected={noteSelected} />
+        {noteSelected ? <NoteContent noteSelected={noteSelected} /> : null}
       </div>
     </SplitPane>
   );
