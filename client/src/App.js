@@ -6,7 +6,6 @@ import List from "@material-ui/core/List";
 import axios from "axios";
 
 import { NotesList } from "./NotesList";
-import Menu from "./Menu";
 import { NoteContent } from "./NoteContent";
 
 export const App = () => {
@@ -17,31 +16,7 @@ export const App = () => {
       backgroundColor: theme.palette.background.paper,
     },
   }));
-  const [notes, setNotes] = useState([
-    {
-      id: 0,
-      title: "Weathering with you",
-      created: Date(),
-      lastUpdated: Date(),
-      noteContent: "Welcome, this is a demo note.",
-    },
-    {
-      id: 1,
-      title: "Howl's moving castle",
-      created: Date(),
-      lastUpdated: Date(),
-      noteContent:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      id: 2,
-      title: "Crash landing on you",
-      created: Date(),
-      lastUpdated: Date(),
-      noteContent:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-  ]);
+  const [notes, setNotes] = useState([]);
 
   useEffect(async () => {
     try {
@@ -61,26 +36,17 @@ export const App = () => {
   };
 
   return (
-    <SplitPane split='vertical' minSize={500} primary='first'>
+    <SplitPane split="vertical" minSize={500} primary="first">
       <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
-        <Button variant='contained' color='primary'>
+        <Button variant="contained" color="primary">
           add note
         </Button>
-        <List component='nav' className={useStyles.root} aria-label='contacts'>
+        <List component="nav" className={useStyles.root} aria-label="contacts">
           <NotesList notes={notes} handleNoteSelect={handleNoteSelect} />
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
         <NoteContent noteSelected={noteSelected} />
-        <div
-          style={{
-            backgroundColor: "turquoise",
-            position: "absolute",
-            bottom: "0px",
-            width: "100%",
-          }}>
-          <Menu noteSelected={noteSelected} />
-        </div>
       </div>
     </SplitPane>
   );
