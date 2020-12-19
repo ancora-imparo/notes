@@ -1,0 +1,23 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "To create a cool note app",
+  "main": "index.js",
+  "scripts": {
+    "build:client": "cd client && npm install",
+    "build:server": "cd server && npm install",
+    "start:client": "cd client && npm serve",
+    "start:server": "cd server && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ancora-imparo/notes.git"
+  },
+  "author": "https://github.com/ancora-imparo/",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ancora-imparo/notes/issues"
+  },
+  "homepage": "https://github.com/ancora-imparo/notes#readme"
+}
