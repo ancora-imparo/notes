@@ -42,11 +42,13 @@ export const App = () => {
           color="primary"
           onClick={() => {
             setNoteSelected({
+              id: 0,
               title: "",
               noteContent: "",
               created: Date(),
             });
-          }}>
+          }}
+        >
           Add Note
         </Button>
         <List component="nav" className={useStyles.root} aria-label="contacts">

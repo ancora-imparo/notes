@@ -6,14 +6,12 @@ import axios from "axios";
 
 export const NoteContent = (props) => {
   const { noteSelected } = props;
-  const checkTitle = noteSelected ? noteSelected.title : " ";
-  const [title, setTitle] = useState(checkTitle);
-  const checkNoteContent = noteSelected ? noteSelected.noteContent : " ";
-  const [content, setContent] = useState(checkNoteContent);
+  const [title, setTitle] = useState(noteSelected.title);
+  const [content, setContent] = useState(noteSelected.noteContent);
 
   useEffect(() => {
-    setTitle(checkTitle);
-    setContent(checkNoteContent);
+    setTitle(noteSelected.title);
+    setContent(noteSelected.noteContent);
   }, [noteSelected]);
 
   const handleTitleChange = (event) => {
@@ -22,7 +20,6 @@ export const NoteContent = (props) => {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
-
   let options = {
     hour: "2-digit",
     minute: "2-digit",
@@ -30,35 +27,25 @@ export const NoteContent = (props) => {
     month: "short",
     day: "numeric",
   };
-  const checkCreated = noteSelected
-    ? new Date(noteSelected.created).toLocaleString("en-US", options, {
-        hour12: true,
-      })
-    : " ";
-
-  <div>
-    <button>Cancel</button> {checkCreated}{" "}
-    <button style={{ float: "right" }}>Save</button>
-  </div>;
 
   return (
     <Formik>
       <Form
-        onSubmit={async () => {
-          await axios
-            .post(`http://localhost:5000/notes`, {
+        onSubmit={async (e) => {
+          e.preventDefault();
+          try {
+            await axios.post("http://localhost:5000/notes", {
               title: title,
               noteContent: content,
-            })
-            .then((res) => {
-              console.log(res);
-              console.log(res.data);
-            })
-            .catch((err) => {
-              console.log(err);
+              id: noteSelected.id,
+              lastUpdated: Date(),
             });
+            window.location.reload();
+          } catch (err) {
+            console.log(err.response);
+          }
         }}
-        >
+      >
         <TextField
           id="title"
           label="Title"
@@ -84,8 +71,11 @@ export const NoteContent = (props) => {
             bottom: "0px",
             width: "100%",
           }}
-          >
-          <button>Cancel</button> {checkCreated}{" "}
+        >
+          <button>Cancel</button>
+          {new Date(noteSelected.created).toLocaleString("en-US", options, {
+            hour12: true,
+          })}
           <button style={{ float: "right" }} type="submit">
             Save
           </button>
