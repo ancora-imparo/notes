@@ -1,1 +1,1 @@
-web: npm run build:server && npm run start:server
+web: cd ./server && npm install && SERVER_PORT=80 npm start
