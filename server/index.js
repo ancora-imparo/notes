@@ -43,7 +43,7 @@ function validatenote(note) {
 //post: Making a new note
 app.post("/notes", async (req, res) => {
   const { error } = validatenote(req.body);
-  const errorMessage = _.get(error, "detais.[0].message", "Error in vaidation");
+  const errorMessage = _.get(error, "details.[0].message", "Error in validation");
   if (error) return res.status(400).send(errorMessage);
   const notes = await store.readNotes();
   const noteIndex = _.findIndex(notes, (n) => n.id === req.body.id);
