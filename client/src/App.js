@@ -17,10 +17,13 @@ export const App = () => {
     },
   }));
   const [notes, setNotes] = useState([]);
+  const apiBase =
+    process.env.REACT_APP_API_BASE ||
+    `https://ancora-imparo-polls-api.herokuapp.com`;
 
   useEffect(async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/notes`);
+      const response = await axios.get(`${apiBase}/notes`);
       const get_notes = response.data;
       setNotes(get_notes);
     } catch (err) {
@@ -47,8 +50,7 @@ export const App = () => {
               noteContent: "",
               created: Date(),
             });
-          }}
-        >
+          }}>
           Add Note
         </Button>
         <List component="nav" className={useStyles.root} aria-label="contacts">
