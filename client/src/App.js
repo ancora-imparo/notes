@@ -19,8 +19,7 @@ export const App = () => {
   const [notes, setNotes] = useState([]);
   const apiBase =
     process.env.REACT_APP_API_BASE ||
-    `https://ancora-imparo-polls-api.herokuapp.com`;
-
+    `https://ancora-imparo-notes-api.herokuapp.com`;
   useEffect(async () => {
     try {
       const response = await axios.get(`${apiBase}/notes`);
@@ -58,7 +57,9 @@ export const App = () => {
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
-        {noteSelected ? <NoteContent noteSelected={noteSelected} /> : null}
+        {noteSelected ? (
+          <NoteContent noteSelected={noteSelected} apiBase={apiBase} />
+        ) : null}
       </div>
     </SplitPane>
   );
