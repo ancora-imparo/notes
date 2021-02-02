@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import axios from "axios";
 
+import * as constants from "./constants";
+
 export const NoteContent = (props) => {
   const { noteSelected } = props;
   const [title, setTitle] = useState(noteSelected.title);
@@ -20,13 +22,6 @@ export const NoteContent = (props) => {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
-  let options = {
-    hour: "2-digit",
-    minute: "2-digit",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
 
   return (
     <Formik>
@@ -34,7 +29,7 @@ export const NoteContent = (props) => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            await axios.post("http://localhost:5000/notes", {
+            await axios.post(constants.ROUTE_NOTES, {
               title: title,
               noteContent: content,
               id: noteSelected.id,
@@ -44,8 +39,7 @@ export const NoteContent = (props) => {
           } catch (err) {
             console.log(err.response);
           }
-        }}
-      >
+        }}>
         <TextField
           id="title"
           label="Title"
@@ -70,12 +64,15 @@ export const NoteContent = (props) => {
             position: "absolute",
             bottom: "0px",
             width: "100%",
-          }}
-        >
+          }}>
           <button>Cancel</button>
-          {new Date(noteSelected.created).toLocaleString("en-US", options, {
-            hour12: true,
-          })}
+          {new Date(noteSelected.created).toLocaleString(
+            "en-US",
+            constants.TIME_FORMAT,
+            {
+              hour12: true,
+            }
+          )}
           <button style={{ float: "right" }} type="submit">
             Save
           </button>
