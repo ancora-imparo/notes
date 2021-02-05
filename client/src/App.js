@@ -5,8 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import axios from "axios";
 
-import { NotesList } from "./NotesList";
-import { NoteContent } from "./NoteContent";
+import NotesList from "./NotesList";
+import NoteContent from "./NoteContent";
 import * as constants from "./constants";
 
 export const App = () => {

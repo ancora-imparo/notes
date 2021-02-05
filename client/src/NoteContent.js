@@ -6,7 +6,7 @@ import axios from "axios";
 
 import * as constants from "./constants";
 
-export const NoteContent = (props) => {
+const NoteContent = (props) => {
   const { noteSelected } = props;
   const [title, setTitle] = useState(noteSelected.title);
   const [content, setContent] = useState(noteSelected.noteContent);
@@ -86,3 +86,5 @@ NoteContent.propTypes = {
     PropTypes.shape({ title: PropTypes.string, noteContent: PropTypes.string })
   ),
 };
+
+export default NoteContent;
