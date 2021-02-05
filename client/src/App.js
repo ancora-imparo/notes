@@ -18,6 +18,7 @@ export const App = () => {
   }));
   const [notes, setNotes] = useState([]);
   const apiBase =
+    // eslint-disable-next-line no-undef
     process.env.REACT_APP_API_BASE ||
     `https://ancora-imparo-polls-api.herokuapp.com`;
 
