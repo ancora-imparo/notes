@@ -67,7 +67,7 @@ const NoteContent = (props) => {
             width: "100%",
           }}>
           <button>Cancel</button>
-          {format(new Date(noteSelected.created), constants.TIME_FORMAT)}
+          {format(new Date(noteSelected.created), ` ${constants.TIME_FORMAT}`)}
           <button style={{ float: "right" }} type="submit">
             Save
           </button>
