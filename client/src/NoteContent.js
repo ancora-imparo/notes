@@ -3,8 +3,11 @@ import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import axios from "axios";
+import { format } from "date-fns";
 
-export const NoteContent = (props) => {
+import * as constants from "./constants";
+
+const NoteContent = (props) => {
   const { noteSelected } = props;
   const [title, setTitle] = useState(noteSelected.title);
   const [content, setContent] = useState(noteSelected.noteContent);
@@ -20,13 +23,6 @@ export const NoteContent = (props) => {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
-  let options = {
-    hour: "2-digit",
-    minute: "2-digit",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
 
   return (
     <Formik>
@@ -34,7 +30,7 @@ export const NoteContent = (props) => {
         onSubmit={async (e) => {
           e.preventDefault();
           try {
-            await axios.post("http://localhost:5000/notes", {
+            await axios.post(constants.ROUTE_NOTES, {
               title: title,
               noteContent: content,
               id: noteSelected.id,
@@ -44,8 +40,7 @@ export const NoteContent = (props) => {
           } catch (err) {
             console.log(err.response);
           }
-        }}
-      >
+        }}>
         <TextField
           id="title"
           label="Title"
@@ -70,12 +65,9 @@ export const NoteContent = (props) => {
             position: "absolute",
             bottom: "0px",
             width: "100%",
-          }}
-        >
+          }}>
           <button>Cancel</button>
-          {new Date(noteSelected.created).toLocaleString("en-US", options, {
-            hour12: true,
-          })}
+          {format(new Date(noteSelected.created), ` ${constants.TIME_FORMAT}`)}
           <button style={{ float: "right" }} type="submit">
             Save
           </button>
@@ -89,3 +81,5 @@ NoteContent.propTypes = {
     PropTypes.shape({ title: PropTypes.string, noteContent: PropTypes.string })
   ),
 };
+
+export default NoteContent;

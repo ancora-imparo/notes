@@ -5,8 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import axios from "axios";
 
-import { NotesList } from "./NotesList";
-import { NoteContent } from "./NoteContent";
+import NotesList from "./NotesList";
+import NoteContent from "./NoteContent";
+import * as constants from "./constants";
 
 export const App = () => {
   const useStyles = makeStyles((theme) => ({
@@ -17,14 +18,10 @@ export const App = () => {
     },
   }));
   const [notes, setNotes] = useState([]);
-  const apiBase =
-    // eslint-disable-next-line no-undef
-    process.env.REACT_APP_API_BASE ||
-    `https://ancora-imparo-polls-api.herokuapp.com`;
 
   useEffect(async () => {
     try {
-      const response = await axios.get(`${apiBase}/notes`);
+      const response = await axios.get(constants.ROUTE_NOTES);
       const get_notes = response.data;
       setNotes(get_notes);
     } catch (err) {
