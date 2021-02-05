@@ -2,6 +2,7 @@ import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
+import { format } from "date-fns";
 
 const NotesList = (props) => {
   const { notes, handleNoteSelect } = props;
@@ -23,7 +24,7 @@ const NotesList = (props) => {
           <div>
             <div> {stringCheck(note.noteContent)} </div>
             <div style={{ float: "right" }}>
-              {new Date(note.created).toLocaleDateString()}
+              {format(new Date(note.created), "dd/MM/yyyy")}
             </div>
           </div>
         }></ListItemText>
