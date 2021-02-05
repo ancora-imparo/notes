@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import axios from "axios";
+import { format } from "date-fns";
 
 import * as constants from "./constants";
 
@@ -66,13 +67,7 @@ const NoteContent = (props) => {
             width: "100%",
           }}>
           <button>Cancel</button>
-          {new Date(noteSelected.created).toLocaleString(
-            "en-US",
-            constants.TIME_FORMAT,
-            {
-              hour12: true,
-            }
-          )}
+          {format(new Date(noteSelected.created), constants.TIME_FORMAT)}
           <button style={{ float: "right" }} type="submit">
             Save
           </button>
