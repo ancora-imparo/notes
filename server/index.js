@@ -43,12 +43,12 @@ function validatenote(note) {
 //post: Making a new note
 app.post("/notes", async (req, res) => {
   const { error } = validatenote(req.body);
-  const errorMessage = _.get(
-    error,
-    "details.[0].message",
-    "Error in validation"
+
+  const errorDetails = _.get(error, "details", "Error in validation");
+  const errorMessages = _.map(errorDetails, (e) =>
+    _.get(e, "message", "Eror message not found")
   );
-  if (error) return res.status(400).send(errorMessage);
+  if (error) return res.status(400).send(errorMessages);
   const notes = await store.readNotes();
   const noteIndex = _.findIndex(notes, (n) => n.id === req.body.id);
   if (noteIndex >= 0) {
