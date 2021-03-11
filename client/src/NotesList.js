@@ -34,7 +34,7 @@ const NotesList = (props) => {
   return <div>{List}</div>;
 };
 NotesList.propTypes = {
-  notes: PropTypes.object,
+  notes: PropTypes.array,
   handleNoteSelect: PropTypes.func,
 };
 

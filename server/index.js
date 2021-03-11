@@ -30,7 +30,7 @@ app.get("/notes/:id", async (req, res) => {
 });
 
 // Validation
-function validatenote(note) {
+function validateNote(note) {
   const schema = Joi.object({
     title: Joi.string().required(),
     noteContent: Joi.string().required(),
@@ -42,13 +42,9 @@ function validatenote(note) {
 
 //post: Making a new note
 app.post("/notes", async (req, res) => {
-  const { error } = validatenote(req.body);
+  const { error } = validateNote(req.body);
 
-  const errorDetails = _.get(error, "details", "Error in validation");
-  const errorMessages = _.map(errorDetails, (e) =>
-    _.get(e, "message", "Eror message not found")
-  );
-  if (error) return res.status(400).send(errorMessages);
+  if (error) return res.status(400).send(error);
   const notes = await store.readNotes();
   const noteIndex = _.findIndex(notes, (n) => n.id === req.body.id);
   if (noteIndex >= 0) {
