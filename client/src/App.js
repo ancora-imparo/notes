@@ -25,7 +25,7 @@ export const App = () => {
       const get_notes = response.data;
       setNotes(get_notes);
     } catch (err) {
-      console.log(err);
+      console.error("error:", err);
     }
   }, []);
 

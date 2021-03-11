@@ -38,7 +38,7 @@ const NoteContent = (props) => {
             });
             window.location.reload();
           } catch (err) {
-            console.log(err.response);
+            console.error("error:", err.response);
           }
         }}>
         <TextField
