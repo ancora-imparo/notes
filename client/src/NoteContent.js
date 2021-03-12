@@ -14,7 +14,7 @@ const NoteContent = (props) => {
   const [content, setContent] = useState(JSON.parse(noteSelected.noteContent));
   useEffect(() => {
     setTitle(noteSelected.title);
-    setContent(noteSelected.noteContent);
+    setContent(JSON.parse(noteSelected.noteContent));
   }, [noteSelected]);
 
   const handleTitleChange = (event) => {
@@ -45,7 +45,6 @@ const NoteContent = (props) => {
           fullWidth
           onChange={handleTitleChange}
         />
-
         <CustomEditor content={content} setContent={setContent} />
         <div
           style={{

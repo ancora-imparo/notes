@@ -1,0 +1,16 @@
+.ProseMirror {
+  max-height: 440px;
+  max-width: 720px;
+  overflow: auto;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  padding: 10px;
+  background: none;
+}
+._1D-5A2zE6ulZzCSsQaxnbL {
+  background: none;
+  color: rgb(80, 76, 76);
+}
+._1D-5A2zE6ulZzCSsQaxnbL:disabled {
+  color: rgb(80, 76, 76);
+}
