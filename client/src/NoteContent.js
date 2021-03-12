@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
@@ -6,12 +6,12 @@ import axios from "axios";
 import { format } from "date-fns";
 
 import * as constants from "./constants";
+import CustomEditor from "./CustomEditor";
 
 const NoteContent = (props) => {
   const { noteSelected } = props;
   const [title, setTitle] = useState(noteSelected.title);
-  const [content, setContent] = useState(noteSelected.noteContent);
-
+  const [content, setContent] = useState(JSON.parse(noteSelected.noteContent));
   useEffect(() => {
     setTitle(noteSelected.title);
     setContent(noteSelected.noteContent);
@@ -19,9 +19,6 @@ const NoteContent = (props) => {
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  };
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
   };
 
   return (
@@ -48,17 +45,8 @@ const NoteContent = (props) => {
           fullWidth
           onChange={handleTitleChange}
         />
-        <TextField
-          id="content"
-          label="Content"
-          style={{ margin: 8 }}
-          margin="normal"
-          rowsMax={40}
-          value={content}
-          fullWidth
-          multiline
-          onChange={handleContentChange}
-        />
+
+        <CustomEditor content={content} setContent={setContent} />
         <div
           style={{
             backgroundColor: "turquoise",
@@ -78,7 +66,11 @@ const NoteContent = (props) => {
 };
 NoteContent.propTypes = {
   noteSelected: PropTypes.objectOf(
-    PropTypes.shape({ title: PropTypes.string, noteContent: PropTypes.string })
+    PropTypes.shape({
+      title: PropTypes.string,
+      noteContent: PropTypes.string,
+      id: PropTypes.number,
+    })
   ),
 };
 

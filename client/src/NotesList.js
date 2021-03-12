@@ -22,7 +22,7 @@ const NotesList = (props) => {
         primary={note.title}
         secondary={
           <div>
-            <div> {stringCheck(note.noteContent)} </div>
+            <div> {stringCheck(JSON.parse(note.noteContent))} </div>
             <div style={{ float: "right" }}>
               {format(new Date(note.created), "dd/MM/yyyy")}
             </div>
