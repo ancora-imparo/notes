@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import { HtmlEditor, MenuBar } from "@aeaton/react-prosemirror";
@@ -12,21 +12,18 @@ import "./editor.css";
 
 const NoteContent = (props) => {
   const { noteSelected } = props;
+
+  if (!noteSelected) {
+    return null;
+  }
+
   const [editorContent, setEditorContent] = useState(
     JSON.parse(noteSelected.noteContent)
   );
 
   return (
     <Formik initialValues={{ title: noteSelected.title }}>
-      {({
-        values,
-        touched,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        dirty,
-      }) => (
+      {({ values, handleChange }) => (
         <Form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -50,8 +47,6 @@ const NoteContent = (props) => {
             onChange={handleChange}
             fullWidth
           />
-          <pre>{values.title}</pre>
-          <pre>{editorContent}</pre>
           <HtmlEditor
             options={options}
             value={editorContent}

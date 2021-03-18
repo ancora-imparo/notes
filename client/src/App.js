@@ -57,7 +57,10 @@ export const App = () => {
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
-        {noteSelected ? <NoteContent noteSelected={noteSelected} /> : null}
+        <NoteContent
+          key={noteSelected ? noteSelected.id : "key"}
+          noteSelected={noteSelected}
+        />
       </div>
     </SplitPane>
   );
