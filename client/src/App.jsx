@@ -59,6 +59,7 @@ export const App = () => {
         <NoteContent
           key={noteSelected ? noteSelected.id : "key"}
           noteSelected={noteSelected}
+          setNoteSelected={setNoteSelected}
           setNotes={setNotes}
         />
       </div>

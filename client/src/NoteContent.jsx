@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
+import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { HtmlEditor, MenuBar } from "@aeaton/react-prosemirror";
 import { options, menu } from "@aeaton/react-prosemirror-config-default";
@@ -11,7 +12,7 @@ import * as constants from "./constants";
 import "./editor.css";
 
 const NoteContent = (props) => {
-  const { noteSelected, setNotes } = props;
+  const { noteSelected, setNotes, setNoteSelected } = props;
 
   if (!noteSelected) {
     return null;
@@ -68,14 +69,30 @@ const NoteContent = (props) => {
               bottom: "0px",
               width: "100%",
             }}>
-            <button>Cancel</button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                setNoteSelected({
+                  id: 0,
+                  title: "",
+                  noteContent: '"<p></p>"',
+                  created: Date(),
+                });
+              }}>
+              Cancel
+            </Button>
             {format(
               new Date(noteSelected.created),
               ` ${constants.TIME_FORMAT}`
             )}
-            <button style={{ float: "right" }} type="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ float: "right" }}
+              type="submit">
               Save
-            </button>
+            </Button>
           </div>
         </Form>
       )}
@@ -84,6 +101,7 @@ const NoteContent = (props) => {
 };
 NoteContent.propTypes = {
   setNotes: PropTypes.func,
+  setNoteSelected: PropTypes.func,
   noteSelected: PropTypes.objectOf(
     PropTypes.shape({
       title: PropTypes.string,
