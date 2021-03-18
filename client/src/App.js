@@ -23,8 +23,7 @@ export const App = () => {
   useEffect(async () => {
     try {
       const response = await axios.get(constants.ROUTE_NOTES);
-      const getNotes = response.data;
-      setNotes(getNotes);
+      setNotes(response.data);
     } catch (err) {
       console.error("error:", err);
     }
@@ -60,6 +59,7 @@ export const App = () => {
         <NoteContent
           key={noteSelected ? noteSelected.id : "key"}
           noteSelected={noteSelected}
+          setNotes={setNotes}
         />
       </div>
     </SplitPane>

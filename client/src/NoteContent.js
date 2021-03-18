@@ -11,7 +11,7 @@ import * as constants from "./constants";
 import "./editor.css";
 
 const NoteContent = (props) => {
-  const { noteSelected } = props;
+  const { noteSelected, setNotes } = props;
 
   if (!noteSelected) {
     return null;
@@ -34,7 +34,8 @@ const NoteContent = (props) => {
                 id: noteSelected.id,
                 lastUpdated: Date(),
               });
-              window.location.reload();
+              const response = await axios.get(constants.ROUTE_NOTES);
+              setNotes(response.data);
             } catch (err) {
               console.error("error:", err.response);
             }
@@ -82,6 +83,7 @@ const NoteContent = (props) => {
   );
 };
 NoteContent.propTypes = {
+  setNotes: PropTypes.func,
   noteSelected: PropTypes.objectOf(
     PropTypes.shape({
       title: PropTypes.string,
