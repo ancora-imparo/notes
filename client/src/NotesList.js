@@ -3,13 +3,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
+import { stringPreview } from "./utils";
 
 const NotesList = (props) => {
   const { notes, handleNoteSelect } = props;
-  function stringCheck(str) {
-    if (str.length > 10) str = str.substring(0, 10);
-    return str;
-  }
 
   const List = notes.map((note) => (
     <ListItem
@@ -22,7 +19,7 @@ const NotesList = (props) => {
         primary={note.title}
         secondary={
           <div>
-            <div> {stringCheck(JSON.parse(note.noteContent))} </div>
+            <div> {stringPreview(JSON.parse(note.noteContent))} </div>
             <div style={{ float: "right" }}>
               {format(new Date(note.created), "dd/MM/yyyy")}
             </div>

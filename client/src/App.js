@@ -17,13 +17,14 @@ export const App = () => {
       backgroundColor: theme.palette.background.paper,
     },
   }));
+
   const [notes, setNotes] = useState([]);
 
   useEffect(async () => {
     try {
       const response = await axios.get(constants.ROUTE_NOTES);
-      const get_notes = response.data;
-      setNotes(get_notes);
+      const getNotes = response.data;
+      setNotes(getNotes);
     } catch (err) {
       console.error("error:", err);
     }
