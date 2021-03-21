@@ -50,8 +50,9 @@ app.post("/notes", async (req, res) => {
   if (noteIndex >= 0) {
     notes[noteIndex] = { ...notes[noteIndex], ...req.body };
   } else {
+    req.body.id = Math.max(0, ...notes.map((item) => item.id)) + 1;
     const note = {
-      id: Math.max(0, ...notes.map((item) => item.id)) + 1,
+      id: req.body.id,
       title: req.body.title,
       created: Date(),
       lastUpdated: Date(),
@@ -61,7 +62,7 @@ app.post("/notes", async (req, res) => {
   }
 
   await store.writeNotes(notes);
-  res.status(200).send();
+  res.status(200).send(`${req.body.id}`);
 });
 
 // Delete note by id

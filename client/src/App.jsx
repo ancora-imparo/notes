@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import axios from "axios";
+import * as _ from "lodash";
 
 import NotesList from "./NotesList";
 import NoteContent from "./NoteContent";
@@ -19,7 +20,6 @@ export const App = () => {
   }));
 
   const [notes, setNotes] = useState([]);
-
   useEffect(async () => {
     try {
       const response = await axios.get(constants.ROUTE_NOTES);
@@ -57,7 +57,7 @@ export const App = () => {
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
         <NoteContent
-          key={noteSelected ? noteSelected.id : "key"}
+          key={_.get(noteSelected, "id", "key")}
           noteSelected={noteSelected}
           setNoteSelected={setNoteSelected}
           setNotes={setNotes}

@@ -29,14 +29,18 @@ const NoteContent = (props) => {
           onSubmit={async (e) => {
             e.preventDefault();
             try {
-              await axios.post(constants.ROUTE_NOTES, {
+              const postResponse = await axios.post(constants.ROUTE_NOTES, {
                 title: values.title,
                 noteContent: JSON.stringify(editorContent),
                 id: noteSelected.id,
                 lastUpdated: Date(),
               });
+
               const response = await axios.get(constants.ROUTE_NOTES);
               setNotes(response.data);
+              setNoteSelected(
+                response.data.find((note) => note.id === postResponse.data)
+              );
             } catch (err) {
               console.error("error:", err.response);
             }
@@ -49,6 +53,7 @@ const NoteContent = (props) => {
             onChange={handleChange}
             fullWidth
           />
+
           <HtmlEditor
             options={options}
             value={editorContent}
@@ -91,7 +96,7 @@ const NoteContent = (props) => {
               color="primary"
               style={{ float: "right" }}
               type="submit">
-              Save
+              {noteSelected.id == 0 ? `Create` : `Save`}
             </Button>
           </div>
         </Form>
