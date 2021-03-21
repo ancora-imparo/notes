@@ -34,21 +34,19 @@ export const App = () => {
   const handleNoteSelect = (id) => {
     setNoteSelected(notes.find((note) => note.id === id));
   };
+  const handleCreateNote = () => {
+    setNoteSelected({
+      id: 0,
+      title: "",
+      noteContent: '"<p></p>"',
+      created: Date(),
+    });
+  };
 
   return (
     <SplitPane split="vertical" minSize={500} primary="first">
       <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setNoteSelected({
-              id: 0,
-              title: "",
-              noteContent: '"<p></p>"',
-              created: Date(),
-            });
-          }}>
+        <Button variant="contained" color="primary" onClick={handleCreateNote}>
           Add Note
         </Button>
         <List component="nav" className={useStyles.root} aria-label="contacts">
@@ -61,6 +59,7 @@ export const App = () => {
           noteSelected={noteSelected}
           setNoteSelected={setNoteSelected}
           setNotes={setNotes}
+          handleCreateNote={handleCreateNote}
         />
       </div>
     </SplitPane>

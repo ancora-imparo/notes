@@ -12,7 +12,7 @@ import * as constants from "./constants";
 import "./editor.css";
 
 const NoteContent = (props) => {
-  const { noteSelected, setNotes, setNoteSelected } = props;
+  const { noteSelected, setNotes, setNoteSelected, handleCreateNote } = props;
 
   if (!noteSelected) {
     return null;
@@ -21,29 +21,32 @@ const NoteContent = (props) => {
   const [editorContent, setEditorContent] = useState(
     JSON.parse(noteSelected.noteContent)
   );
+  const handleOnSubmit = async (values) => {
+    try {
+      const postResponse = await axios.post(constants.ROUTE_NOTES, {
+        title: values.title,
+        noteContent: JSON.stringify(editorContent),
+        id: noteSelected.id,
+        lastUpdated: Date(),
+      });
+
+      const response = await axios.get(constants.ROUTE_NOTES);
+      setNotes(response.data);
+      setNoteSelected(
+        response.data.find((note) => note.id === postResponse.data)
+      );
+    } catch (err) {
+      console.error("error:", err.response);
+    }
+  };
 
   return (
     <Formik initialValues={{ title: noteSelected.title }}>
       {({ values, handleChange }) => (
         <Form
-          onSubmit={async (e) => {
+          onSubmit={(e) => {
             e.preventDefault();
-            try {
-              const postResponse = await axios.post(constants.ROUTE_NOTES, {
-                title: values.title,
-                noteContent: JSON.stringify(editorContent),
-                id: noteSelected.id,
-                lastUpdated: Date(),
-              });
-
-              const response = await axios.get(constants.ROUTE_NOTES);
-              setNotes(response.data);
-              setNoteSelected(
-                response.data.find((note) => note.id === postResponse.data)
-              );
-            } catch (err) {
-              console.error("error:", err.response);
-            }
+            handleOnSubmit(values);
           }}>
           <TextField
             id="title"
@@ -77,14 +80,7 @@ const NoteContent = (props) => {
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => {
-                setNoteSelected({
-                  id: 0,
-                  title: "",
-                  noteContent: '"<p></p>"',
-                  created: Date(),
-                });
-              }}>
+              onClick={handleCreateNote}>
               Cancel
             </Button>
             {format(
