@@ -102,12 +102,14 @@ const NoteContent = (props) => {
 };
 NoteContent.propTypes = {
   setNotes: PropTypes.func,
+  handleCreateNote: PropTypes.func,
   setNoteSelected: PropTypes.func,
   noteSelected: PropTypes.objectOf(
     PropTypes.shape({
       title: PropTypes.string,
       noteContent: PropTypes.string,
       id: PropTypes.number,
+      created: PropTypes.instanceOf(Date),
     })
   ),
 };

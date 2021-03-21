@@ -11,6 +11,7 @@ const NotesList = (props) => {
   const List = notes.map((note) => (
     <ListItem
       key={note.id}
+      component="span"
       button
       onClick={() => {
         handleNoteSelect(note.id);
@@ -18,12 +19,12 @@ const NotesList = (props) => {
       <ListItemText
         primary={note.title}
         secondary={
-          <div>
-            <div> {stringPreview(note.noteContent)} </div>
-            <div style={{ float: "right" }}>
+          <span>
+            <span> {stringPreview(note.noteContent)} </span>
+            <span style={{ float: "right" }}>
               {format(new Date(note.created), "dd/MM/yyyy")}
-            </div>
-          </div>
+            </span>
+          </span>
         }></ListItemText>
     </ListItem>
   ));

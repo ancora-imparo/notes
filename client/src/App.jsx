@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import axios from "axios";
-import * as _ from "lodash";
+import { get } from "lodash";
 
 import NotesList from "./NotesList";
 import NoteContent from "./NoteContent";
@@ -55,7 +55,7 @@ export const App = () => {
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
         <NoteContent
-          key={_.get(noteSelected, "id", "key")}
+          key={get(noteSelected, "id", -1)}
           noteSelected={noteSelected}
           setNoteSelected={setNoteSelected}
           setNotes={setNotes}
