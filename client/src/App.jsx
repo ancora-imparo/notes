@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SplitPane from "react-split-pane";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import axios from "axios";
 import { get } from "lodash";
@@ -43,19 +43,34 @@ export const App = () => {
     });
   };
 
+  const AddButton = withStyles(() => ({
+    root: {
+      color: "white",
+      margin: "5px",
+      fontSize: "100%",
+      backgroundColor: "#be01ff",
+      "&:hover": {
+        backgroundColor: "#d353ff",
+      },
+    },
+  }))(Button);
+
   return (
     <SplitPane split="vertical" minSize={500} primary="first">
       <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
-        <Button variant="contained" color="primary" onClick={handleCreateNote}>
+        <AddButton
+          variant="contained"
+          color="primary"
+          onClick={handleCreateNote}>
           Add Note
-        </Button>
+        </AddButton>
         <List component="nav" className={useStyles.root} aria-label="contacts">
           <NotesList notes={notes} handleNoteSelect={handleNoteSelect} />
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
         <NoteContent
-          key={get(noteSelected, "id", -1)}
+          key={get(noteSelected, "id", undefined)}
           noteSelected={noteSelected}
           setNoteSelected={setNoteSelected}
           setNotes={setNotes}
