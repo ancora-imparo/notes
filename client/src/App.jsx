@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import axios from "axios";
+import { get } from "lodash";
 
 import NotesList from "./NotesList";
 import NoteContent from "./NoteContent";
@@ -17,13 +18,12 @@ export const App = () => {
       backgroundColor: theme.palette.background.paper,
     },
   }));
-  const [notes, setNotes] = useState([]);
 
+  const [notes, setNotes] = useState([]);
   useEffect(async () => {
     try {
       const response = await axios.get(constants.ROUTE_NOTES);
-      const get_notes = response.data;
-      setNotes(get_notes);
+      setNotes(response.data);
     } catch (err) {
       console.error("error:", err);
     }
@@ -34,21 +34,19 @@ export const App = () => {
   const handleNoteSelect = (id) => {
     setNoteSelected(notes.find((note) => note.id === id));
   };
+  const handleCreateNote = () => {
+    setNoteSelected({
+      id: 0,
+      title: "",
+      noteContent: '"<p></p>"',
+      created: Date(),
+    });
+  };
 
   return (
     <SplitPane split="vertical" minSize={500} primary="first">
       <div style={{ backgroundColor: "#bbbb", height: "100vh" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setNoteSelected({
-              id: 0,
-              title: "",
-              noteContent: "",
-              created: Date(),
-            });
-          }}>
+        <Button variant="contained" color="primary" onClick={handleCreateNote}>
           Add Note
         </Button>
         <List component="nav" className={useStyles.root} aria-label="contacts">
@@ -56,7 +54,13 @@ export const App = () => {
         </List>
       </div>
       <div style={{ backgroundColor: "lightblue", height: "100vh" }}>
-        {noteSelected ? <NoteContent noteSelected={noteSelected} /> : null}
+        <NoteContent
+          key={get(noteSelected, "id", -1)}
+          noteSelected={noteSelected}
+          setNoteSelected={setNoteSelected}
+          setNotes={setNotes}
+          handleCreateNote={handleCreateNote}
+        />
       </div>
     </SplitPane>
   );
