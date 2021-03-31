@@ -46,7 +46,7 @@ export const App = () => {
   const AddButton = withStyles(() => ({
     root: {
       color: "white",
-      margin: "5px",
+      margin: "4px",
       fontSize: "100%",
       backgroundColor: "#be01ff",
       "&:hover": {

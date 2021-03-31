@@ -43,7 +43,7 @@ const NoteContent = (props) => {
   const CancelButton = withStyles(() => ({
     root: {
       color: "white",
-      margin: "5px",
+      margin: "4px",
       fontSize: "100%",
       backgroundColor: "#d20202",
       "&:hover": {
@@ -55,7 +55,7 @@ const NoteContent = (props) => {
   const SubmitButton = withStyles(() => ({
     root: {
       color: "white",
-      margin: "5px",
+      margin: "4px",
       fontSize: "100%",
       backgroundColor: "#7fc01f",
       "&:hover": {
