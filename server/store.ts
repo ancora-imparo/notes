@@ -1,16 +1,19 @@
 const FsPromise = require("fs").promises;
 
 module.exports = {
-  readNotes: async function (filepath = "./data.json") {
+  readNotes: async function (filepath: string = "./data.json") {
     try {
-      const notes = await FsPromise.readFile(filepath);
+      const notes: string = await FsPromise.readFile(filepath);
       return JSON.parse(notes);
     } catch (error) {
       return [];
     }
   },
 
-  writeNotes: async function (notesObj, filepath = "./data.json") {
+  writeNotes: async function (
+    notesObj: notesObject,
+    filepath: string = "./data.json"
+  ) {
     await FsPromise.writeFile(filepath, JSON.stringify(notesObj));
   },
 };

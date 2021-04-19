@@ -2,10 +2,11 @@
   "name": "notes",
   "version": "1.0.0",
   "description": "Simple note taking app",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "start": "node server.ts",
+    "start": "tsc && node build/server.js",
     "dev": "nodemon server.js",
+    "build": "tsc --project ./",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "test": "jest"
@@ -29,6 +30,7 @@
     "typescript": "^4.2.4"
   },
   "devDependencies": {
+    "@types/express": "^4.17.11",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.41",
     "eslint": "^7.16.0",
@@ -36,6 +38,8 @@
     "eslint-plugin-prettier": "^3.3.0",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
-    "supertest": "^6.0.1"
+    "supertest": "^6.0.1",
+    "ts-node": "^9.1.1",
+    "tslint": "^6.1.3"
   }
 }
