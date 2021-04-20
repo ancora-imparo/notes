@@ -14,6 +14,6 @@ export const readNotes = async (
 export const writeNotes = async (
   notesObj: Note[],
   filepath: string = "./data.json"
-) => {
+): Promise<void> => {
   await FsPromise.writeFile(filepath, JSON.stringify(notesObj));
 };

@@ -6,13 +6,17 @@
     "node": true,
     "jest": true
   },
-  "extends": ["prettier", "eslint:recommended"],
-  "parserOptions": {
-    "ecmaVersion": 12
-  },
-  "plugins": ["prettier"],
-
+  "root": true,
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["prettier", "@typescript-eslint"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }

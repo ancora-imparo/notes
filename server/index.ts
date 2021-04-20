@@ -8,18 +8,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req: any, res: any) => {
+app.get("/", (req, res) => {
   res.status(200).send();
 });
 
 // Get all notes
-app.get("/notes", async (req: any, res: any) => {
+app.get("/notes", async (req, res) => {
   const notes = await store.readNotes();
   res.status(200).send(notes);
 });
 
 // Get notes by id
-app.get("/notes/:id", async (req: any, res: any) => {
+app.get("/notes/:id", async (req, res) => {
   const notes = await store.readNotes();
   const id: number = parseInt(req.params["id"], 10);
   const note = notes.find((element) => element.id === id);
@@ -42,7 +42,7 @@ const validateNote = (note: Note) => {
 };
 
 //post: Making a new note
-app.post("/notes", async (req: any, res: any) => {
+app.post("/notes", async (req, res) => {
   const { error } = validateNote(req.body);
   if (error) return res.status(400).send(error);
   const notes = await store.readNotes();
@@ -68,10 +68,10 @@ app.post("/notes", async (req: any, res: any) => {
 });
 
 // Delete note by id
-app.delete("/notes/:id", async (req: any, res: any) => {
+app.delete("/notes/:id", async (req, res) => {
   const notes = await store.readNotes();
   const id: number = parseInt(req.params["id"], 10);
-  const noteExist: object | undefined = notes.find(
+  const noteExist: Note | undefined = notes.find(
     (element) => element.id === id
   );
   if (noteExist) {
