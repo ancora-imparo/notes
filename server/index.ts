@@ -3,18 +3,10 @@ const Joi = require("joi");
 const cors = require("cors");
 const _ = require("lodash");
 
-const store = require("./store.js");
+import store = require("./store.js");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-interface notesObject {
-  id: number;
-  title: string;
-  created: string;
-  lastUpdated: string;
-  noteContent: string;
-}
 
 app.get("/", (req: any, res: any) => {
   res.status(200).send();
@@ -22,13 +14,13 @@ app.get("/", (req: any, res: any) => {
 
 // Get all notes
 app.get("/notes", async (req: any, res: any) => {
-  const notes: notesObject[] = await store.readNotes();
+  const notes = await store.readNotes();
   res.status(200).send(notes);
 });
 
 // Get notes by id
 app.get("/notes/:id", async (req: any, res: any) => {
-  const notes: notesObject[] = await store.readNotes();
+  const notes = await store.readNotes();
   const id: number = parseInt(req.params["id"], 10);
   const note = notes.find((element) => element.id === id);
   if (!note) {
@@ -39,7 +31,7 @@ app.get("/notes/:id", async (req: any, res: any) => {
 });
 
 // Validation
-function validateNote(note: notesObject) {
+const validateNote = (note: Note) => {
   const schema = Joi.object({
     title: Joi.string().required(),
     noteContent: Joi.string().required(),
@@ -47,17 +39,16 @@ function validateNote(note: notesObject) {
     lastUpdated: Joi.date(),
   });
   return schema.validate(note);
-}
+};
 
 //post: Making a new note
 app.post("/notes", async (req: any, res: any) => {
   const { error } = validateNote(req.body);
-
   if (error) return res.status(400).send(error);
-  const notes: notesObject[] = await store.readNotes();
+  const notes = await store.readNotes();
   const noteIndex: number = _.findIndex(
     notes,
-    (n: notesObject) => n.id === req.body.id
+    (n: Note) => n.id === req.body.id
   );
   if (noteIndex >= 0) {
     notes[noteIndex] = { ...notes[noteIndex], ...req.body };
@@ -72,20 +63,19 @@ app.post("/notes", async (req: any, res: any) => {
     };
     notes.push(note);
   }
-
   await store.writeNotes(notes);
   res.status(200).send(`${req.body.id}`);
 });
 
 // Delete note by id
 app.delete("/notes/:id", async (req: any, res: any) => {
-  const notes: notesObject[] = await store.readNotes();
+  const notes = await store.readNotes();
   const id: number = parseInt(req.params["id"], 10);
   const noteExist: object | undefined = notes.find(
     (element) => element.id === id
   );
   if (noteExist) {
-    const updatedNotes: notesObject[] = notes.filter((element) => {
+    const updatedNotes = notes.filter((element) => {
       return element.id !== id;
     });
     await store.writeNotes(updatedNotes);
