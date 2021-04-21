@@ -1,8 +1,6 @@
 const FsPromise = require("fs").promises;
 
-export const readNotes = async (
-  filepath: string = "./data.json"
-): Promise<Note[]> => {
+export const readNotes = async (filepath = "./data.json"): Promise<Note[]> => {
   try {
     const notes: string = await FsPromise.readFile(filepath);
     return JSON.parse(notes);
@@ -13,7 +11,7 @@ export const readNotes = async (
 
 export const writeNotes = async (
   notesObj: Note[],
-  filepath: string = "./data.json"
+  filepath = "./data.json"
 ): Promise<void> => {
   await FsPromise.writeFile(filepath, JSON.stringify(notesObj));
 };

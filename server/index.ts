@@ -3,7 +3,8 @@ const Joi = require("joi");
 const cors = require("cors");
 const _ = require("lodash");
 
-import store = require("./store.js");
+import * as store from "./store.js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -46,10 +47,7 @@ app.post("/notes", async (req, res) => {
   const { error } = validateNote(req.body);
   if (error) return res.status(400).send(error);
   const notes = await store.readNotes();
-  const noteIndex: number = _.findIndex(
-    notes,
-    (n: Note) => n.id === req.body.id
-  );
+  const noteIndex: number = _.findIndex(notes, (n) => n.id === req.body.id);
   if (noteIndex >= 0) {
     notes[noteIndex] = { ...notes[noteIndex], ...req.body };
   } else {
