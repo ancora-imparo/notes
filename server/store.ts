@@ -1,9 +1,9 @@
-const FsPromise = require("fs").promises;
+import { readFile, writeFile } from "fs/promises";
 
 export const readNotes = async (filepath = "./data.json"): Promise<Note[]> => {
   try {
-    const notes: string = await FsPromise.readFile(filepath);
-    return JSON.parse(notes);
+    const notes = await readFile(filepath);
+    return JSON.parse(notes.toString());
   } catch (error) {
     return [];
   }
@@ -13,5 +13,5 @@ export const writeNotes = async (
   notesObj: Note[],
   filepath = "./data.json"
 ): Promise<void> => {
-  await FsPromise.writeFile(filepath, JSON.stringify(notesObj));
+  await writeFile(filepath, JSON.stringify(notesObj));
 };

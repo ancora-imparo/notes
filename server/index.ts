@@ -81,4 +81,4 @@ app.delete("/notes/:id", async (req, res) => {
   }
 });
 
-module.exports = app;
+export default app;

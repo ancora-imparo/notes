@@ -1,16 +1,16 @@
-const request = require("supertest");
-const testApp = require("../index");
+import request from "supertest";
+import app from "../index";
 
 describe("http requests testing", () => {
   test("Initial GET request", async () => {
-    const response = await request(testApp).get("/notes");
+    const response = await request(app).get("/notes");
     expect(response.statusCode).toBe(200);
 
     const noteJson: Note[] = response.body;
     expect(noteJson).toStrictEqual([]);
   });
   test("Initial POST request", async () => {
-    const response = await request(testApp).post("/notes").send({
+    const response = await request(app).post("/notes").send({
       title: "1st",
       noteContent: "This is First note",
     });
@@ -18,7 +18,7 @@ describe("http requests testing", () => {
   });
 
   test("GET request after POST", async () => {
-    const response = await request(testApp).get("/notes");
+    const response = await request(app).get("/notes");
     expect(response.statusCode).toStrictEqual(200);
     const noteJson: Note[] = response.body;
     expect(noteJson.length).toStrictEqual(1);
@@ -27,7 +27,7 @@ describe("http requests testing", () => {
   });
 
   test("POST request for second note", async () => {
-    const response = await request(testApp).post("/notes").send({
+    const response = await request(app).post("/notes").send({
       title: "2nd",
       noteContent: "This is Second note",
     });
@@ -35,7 +35,7 @@ describe("http requests testing", () => {
   });
 
   test("GET request after second note is added", async () => {
-    const response = await request(testApp).get("/notes");
+    const response = await request(app).get("/notes");
     expect(response.statusCode).toStrictEqual(200);
     const noteJson: Note[] = response.body;
     expect(noteJson.length).toStrictEqual(2);
@@ -44,7 +44,7 @@ describe("http requests testing", () => {
   });
 
   test("GET request of second note by id", async () => {
-    const response = await request(testApp).get("/notes/2");
+    const response = await request(app).get("/notes/2");
     expect(response.statusCode).toStrictEqual(200);
     const noteJson: Note = response.body;
     expect(noteJson.title).toBe("2nd");
@@ -52,20 +52,20 @@ describe("http requests testing", () => {
   });
 
   test("GET request by id to get 404 response", async () => {
-    const response = await request(testApp).get("/notes/99");
+    const response = await request(app).get("/notes/99");
     expect(response.statusCode).toStrictEqual(404);
   });
 
   test("DELETE request of second note by id", async () => {
-    const response = await request(testApp).delete("/notes/2");
+    const response = await request(app).delete("/notes/2");
     expect(response.statusCode).toStrictEqual(200);
   });
   test("GET request of deleted second note", async () => {
-    const response = await request(testApp).get("/notes/2");
+    const response = await request(app).get("/notes/2");
     expect(response.statusCode).toStrictEqual(404);
   });
   test("DELETE request to get bad request response", async () => {
-    const response = await request(testApp).delete("/notes/2");
+    const response = await request(app).delete("/notes/2");
     expect(response.statusCode).toStrictEqual(400);
   });
 });
