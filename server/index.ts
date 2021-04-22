@@ -1,7 +1,7 @@
-const express = require("express");
-const Joi = require("joi");
-const cors = require("cors");
-const _ = require("lodash");
+import express from "express";
+import joi from "joi";
+import cors from "cors";
+import _ from "lodash";
 
 import * as store from "./store.js";
 
@@ -22,7 +22,7 @@ app.get("/notes", async (req, res) => {
 // Get notes by id
 app.get("/notes/:id", async (req, res) => {
   const notes = await store.readNotes();
-  const id: number = parseInt(req.params["id"], 10);
+  const id = parseInt(req.params["id"], 10);
   const note = notes.find((element) => element.id === id);
   if (!note) {
     res.status(404).send("Not Found");
@@ -32,12 +32,12 @@ app.get("/notes/:id", async (req, res) => {
 });
 
 // Validation
-const validateNote = (note: Note) => {
-  const schema = Joi.object({
-    title: Joi.string().required(),
-    noteContent: Joi.string().required(),
-    id: Joi.number(),
-    lastUpdated: Joi.date(),
+const validateNote = (note) => {
+  const schema = joi.object({
+    title: joi.string().required(),
+    noteContent: joi.string().required(),
+    id: joi.number(),
+    lastUpdated: joi.date(),
   });
   return schema.validate(note);
 };
@@ -47,7 +47,7 @@ app.post("/notes", async (req, res) => {
   const { error } = validateNote(req.body);
   if (error) return res.status(400).send(error);
   const notes = await store.readNotes();
-  const noteIndex: number = _.findIndex(notes, (n) => n.id === req.body.id);
+  const noteIndex = _.findIndex(notes, (n) => n.id === req.body.id);
   if (noteIndex >= 0) {
     notes[noteIndex] = { ...notes[noteIndex], ...req.body };
   } else {
@@ -68,10 +68,8 @@ app.post("/notes", async (req, res) => {
 // Delete note by id
 app.delete("/notes/:id", async (req, res) => {
   const notes = await store.readNotes();
-  const id: number = parseInt(req.params["id"], 10);
-  const noteExist: Note | undefined = notes.find(
-    (element) => element.id === id
-  );
+  const id = parseInt(req.params["id"], 10);
+  const noteExist = notes.find((element) => element.id === id);
   if (noteExist) {
     const updatedNotes = notes.filter((element) => {
       return element.id !== id;
