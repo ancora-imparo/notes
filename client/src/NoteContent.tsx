@@ -11,7 +11,12 @@ import { format } from "date-fns";
 
 import * as constants from "./constants";
 import "./editor.css";
-const NoteContent = (props) => {
+const NoteContent = (props: {
+  noteSelected: Note | undefined;
+  setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
+  setNoteSelected: React.Dispatch<React.SetStateAction<Note | undefined>>;
+  handleCreateNote: () => void;
+}) => {
   const { noteSelected, setNotes, setNoteSelected, handleCreateNote } = props;
 
   if (!noteSelected) {
@@ -21,7 +26,7 @@ const NoteContent = (props) => {
   const [editorContent, setEditorContent] = useState(
     JSON.parse(noteSelected.noteContent)
   );
-  const handleOnSubmit = async (values) => {
+  const handleOnSubmit = async (values: { title: string | undefined }) => {
     try {
       const postResponse = await axios.post(constants.ROUTE_NOTES, {
         title: values.title,
@@ -33,7 +38,7 @@ const NoteContent = (props) => {
       const response = await axios.get(constants.ROUTE_NOTES);
       setNotes(response.data);
       setNoteSelected(
-        response.data.find((note) => note.id === postResponse.data)
+        response.data.find((note: Note) => note.id === postResponse.data)
       );
     } catch (err) {
       console.error("error:", err.response);

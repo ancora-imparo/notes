@@ -10,7 +10,7 @@ import NotesList from "./NotesList";
 import NoteContent from "./NoteContent";
 import * as constants from "./constants";
 
-export const App = () => {
+export const App: React.FC = () => {
   const useStyles = makeStyles((theme) => ({
     root: {
       width: "100%",
@@ -19,7 +19,7 @@ export const App = () => {
     },
   }));
 
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState<Note[]>([]);
   useEffect(async () => {
     try {
       const response = await axios.get(constants.ROUTE_NOTES);
@@ -29,9 +29,9 @@ export const App = () => {
     }
   }, []);
 
-  const [noteSelected, setNoteSelected] = useState();
+  const [noteSelected, setNoteSelected] = useState<Note | undefined>();
 
-  const handleNoteSelect = (id) => {
+  const handleNoteSelect = (id: number) => {
     setNoteSelected(notes.find((note) => note.id === id));
   };
   const handleCreateNote = () => {

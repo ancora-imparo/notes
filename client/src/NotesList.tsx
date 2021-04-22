@@ -8,7 +8,7 @@ import { stringPreview } from "./utils";
 const NotesList = (props) => {
   const { notes, handleNoteSelect } = props;
 
-  const List = notes.map((note) => (
+  const List = notes.map((note: Note) => (
     <ListItem
       key={note.id}
       component="span"
