@@ -4,11 +4,18 @@
     "es2021": true,
     "jest/globals": true
   },
-  "extends": ["prettier", "eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "react/prop-types": "warn",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "no-undef": "warn"
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -16,7 +23,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "jest"],
+  "plugins": ["react", "prettier", "@typescript-eslint", "jest"],
   "settings": {
     "react": {
       "version": "detect"
