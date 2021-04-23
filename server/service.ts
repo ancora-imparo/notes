@@ -1,4 +1,5 @@
 import _ from "lodash";
+
 import * as store from "./store";
 
 export const getAllNotes = async (): Promise<Note[]> => {
@@ -40,8 +41,6 @@ export const deleteNoteById = async (id: number): Promise<boolean> => {
       return element.id !== id;
     });
     await store.writeNotes(updatedNotes);
-    return true;
-  } else {
-    return false;
   }
+  return !!noteExist;
 };
