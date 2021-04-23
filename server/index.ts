@@ -1,35 +1,36 @@
 import express from "express";
 import joi from "joi";
 import cors from "cors";
-import _ from "lodash";
 
-import * as store from "./store.js";
+import * as service from "./service";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
+const getHealthCheck = (req, res) => {
   res.status(200).send();
-});
+};
+app.get("/", getHealthCheck);
 
 // Get all notes
-app.get("/notes", async (req, res) => {
-  const notes = await store.readNotes();
+const getAllNotesHandler = async (req, res) => {
+  const notes = await service.getAllNotes();
   res.status(200).send(notes);
-});
+};
+app.get("/notes", getAllNotesHandler);
 
 // Get notes by id
-app.get("/notes/:id", async (req, res) => {
-  const notes = await store.readNotes();
+const getNoteByIdHandler = async (req, res) => {
   const id = parseInt(req.params["id"], 10);
-  const note = notes.find((element) => element.id === id);
+  const note = await service.getNoteById(id);
   if (!note) {
     res.status(404).send("Not Found");
   } else {
     res.status(200).send(note);
   }
-});
+};
+app.get("/notes/:id", getNoteByIdHandler);
 
 // Validation
 const validateNote = (note) => {
@@ -43,42 +44,24 @@ const validateNote = (note) => {
 };
 
 //post: Making a new note
-app.post("/notes", async (req, res) => {
+const saveNoteHandler = async (req, res) => {
   const { error } = validateNote(req.body);
   if (error) return res.status(400).send(error);
-  const notes = await store.readNotes();
-  const noteIndex = _.findIndex(notes, (n) => n.id === req.body.id);
-  if (noteIndex >= 0) {
-    notes[noteIndex] = { ...notes[noteIndex], ...req.body };
-  } else {
-    req.body.id = Math.max(0, ...notes.map((item) => item.id)) + 1;
-    const note = {
-      id: req.body.id,
-      title: req.body.title,
-      created: Date(),
-      lastUpdated: Date(),
-      noteContent: req.body.noteContent,
-    };
-    notes.push(note);
-  }
-  await store.writeNotes(notes);
-  res.status(200).send(`${req.body.id}`);
-});
+  const id = await service.saveNote(req.body);
+  res.status(200).send(`${id}`);
+};
+app.post("/notes", saveNoteHandler);
 
 // Delete note by id
-app.delete("/notes/:id", async (req, res) => {
-  const notes = await store.readNotes();
+const deleteNoteByIdHandler = async (req, res) => {
   const id = parseInt(req.params["id"], 10);
-  const noteExist = notes.find((element) => element.id === id);
-  if (noteExist) {
-    const updatedNotes = notes.filter((element) => {
-      return element.id !== id;
-    });
-    await store.writeNotes(updatedNotes);
+  const noteDeleted = await service.deleteNoteById(id);
+  if (noteDeleted) {
     res.status(200).send();
   } else {
     res.status(400).send("Bad request");
   }
-});
+};
+app.delete("/notes/:id", deleteNoteByIdHandler);
 
 export default app;
