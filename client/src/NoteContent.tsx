@@ -16,7 +16,7 @@ const NoteContent = (props: {
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
   setNoteSelected: React.Dispatch<React.SetStateAction<Note | undefined>>;
   handleCreateNote: () => void;
-}) => {
+}): JSX.Element | null => {
   const { noteSelected, setNotes, setNoteSelected, handleCreateNote } = props;
 
   if (!noteSelected) {

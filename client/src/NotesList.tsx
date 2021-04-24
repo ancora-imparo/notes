@@ -5,10 +5,12 @@ import PropTypes from "prop-types";
 import { format } from "date-fns";
 import { stringPreview } from "./utils";
 
-const NotesList = (props) => {
+const NotesList = (props: {
+  notes: Note[];
+  handleNoteSelect: (id: number) => void;
+}): JSX.Element => {
   const { notes, handleNoteSelect } = props;
-
-  const List = notes.map((note: Note) => (
+  const List = notes.map((note) => (
     <ListItem
       key={note.id}
       component="span"

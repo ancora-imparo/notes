@@ -11,7 +11,7 @@ import NoteContent from "./NoteContent";
 import * as constants from "./constants";
 
 export const App: React.FC = () => {
-  const useStyles = makeStyles((theme) => ({
+  const useStyles: any = makeStyles((theme) => ({
     root: {
       width: "100%",
       maxWidth: 360,
@@ -20,13 +20,16 @@ export const App: React.FC = () => {
   }));
 
   const [notes, setNotes] = useState<Note[]>([]);
-  useEffect(async () => {
-    try {
-      const response = await axios.get(constants.ROUTE_NOTES);
-      setNotes(response.data);
-    } catch (err) {
-      console.error("error:", err);
-    }
+  useEffect(() => {
+    const getNotes = async () => {
+      try {
+        const response = await axios.get(constants.ROUTE_NOTES);
+        setNotes(response.data);
+      } catch (err) {
+        console.error("error:", err);
+      }
+    };
+    getNotes();
   }, []);
 
   const [noteSelected, setNoteSelected] = useState<Note | undefined>();
