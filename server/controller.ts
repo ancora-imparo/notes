@@ -2,10 +2,10 @@ import joi from "joi";
 
 import * as service from "./service";
 
-export const getHealthCheck = (req, res): void => {
+export const getHealthCheck = (_, res): void => {
   res.status(200).send();
 };
-export const getAllNotesHandler = async (req, res): Promise<void> => {
+export const getAllNotesHandler = async (_, res): Promise<void> => {
   const notes = await service.getAllNotes();
   res.status(200).send(notes);
 };
@@ -33,7 +33,7 @@ export const saveNoteHandler = async ({ body }, res): Promise<void> => {
   if (error) res.status(400).send(error);
   else {
     const id = await service.saveNote(body);
-    res.status(200).send(`${id}`);
+    res.status(200).send(id.toString());
   }
 };
 export const deleteNoteByIdHandler = async (req, res): Promise<void> => {
