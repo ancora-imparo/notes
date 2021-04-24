@@ -3,7 +3,7 @@ import joi from "joi";
 import cors from "cors";
 import _ from "lodash";
 
-import * as store from "./store.js";
+import * as store from "./store";
 
 const app = express();
 app.use(cors());
