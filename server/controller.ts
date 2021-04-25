@@ -6,15 +6,13 @@ import * as service from "./service";
 export const getHealthCheck = (_: Request, res: Response): void => {
   res.status(200).send();
 };
-export const getAllNotesHandler = async (
-  _: Request,
-  res: Response
-): Promise<void> => {
+
+export const getAllNotes = async (_: Request, res: Response): Promise<void> => {
   const notes = await service.getAllNotes();
   res.status(200).send(notes);
 };
 
-export const getNoteByIdHandler = async (
+export const getNoteById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -26,6 +24,7 @@ export const getNoteByIdHandler = async (
     res.status(200).send(note);
   }
 };
+
 const validateNote = (note) => {
   const schema = joi.object({
     title: joi.string().required(),
@@ -35,10 +34,8 @@ const validateNote = (note) => {
   });
   return schema.validate(note);
 };
-export const saveNoteHandler = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+
+export const saveNote = async (req: Request, res: Response): Promise<void> => {
   const { body } = req;
   const { error } = validateNote(body);
   if (error) res.status(400).send(error);
@@ -47,7 +44,8 @@ export const saveNoteHandler = async (
     res.status(200).send(id.toString());
   }
 };
-export const deleteNoteByIdHandler = async (
+
+export const deleteNoteById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
