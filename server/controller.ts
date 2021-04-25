@@ -1,16 +1,21 @@
 import joi from "joi";
+import { Request, Response } from "express";
 
 import * as service from "./service";
 
-export const getHealthCheck = (_, res): void => {
+export const getHealthCheck = (_: Request, res: Response): void => {
   res.status(200).send();
 };
-export const getAllNotes = async (_, res): Promise<void> => {
+
+export const getAllNotes = async (_: Request, res: Response): Promise<void> => {
   const notes = await service.getAllNotes();
   res.status(200).send(notes);
 };
 
-export const getNoteById = async (req, res): Promise<void> => {
+export const getNoteById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const id = parseInt(req.params["id"], 10);
   const note = await service.getNoteById(id);
   if (!note) {
@@ -19,6 +24,7 @@ export const getNoteById = async (req, res): Promise<void> => {
     res.status(200).send(note);
   }
 };
+
 const validateNote = (note) => {
   const schema = joi.object({
     title: joi.string().required(),
@@ -28,7 +34,9 @@ const validateNote = (note) => {
   });
   return schema.validate(note);
 };
-export const saveNote = async ({ body }, res): Promise<void> => {
+
+export const saveNote = async (req: Request, res: Response): Promise<void> => {
+  const { body } = req;
   const { error } = validateNote(body);
   if (error) res.status(400).send(error);
   else {
@@ -36,7 +44,11 @@ export const saveNote = async ({ body }, res): Promise<void> => {
     res.status(200).send(id.toString());
   }
 };
-export const deleteNoteById = async (req, res): Promise<void> => {
+
+export const deleteNoteById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const id = parseInt(req.params["id"], 10);
   const noteDeleted = await service.deleteNoteById(id);
   if (noteDeleted) {
