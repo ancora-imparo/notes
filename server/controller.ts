@@ -5,12 +5,12 @@ import * as service from "./service";
 export const getHealthCheck = (_, res): void => {
   res.status(200).send();
 };
-export const getAllNotesHandler = async (_, res): Promise<void> => {
+export const getAllNotes = async (_, res): Promise<void> => {
   const notes = await service.getAllNotes();
   res.status(200).send(notes);
 };
 
-export const getNoteByIdHandler = async (req, res): Promise<void> => {
+export const getNoteById = async (req, res): Promise<void> => {
   const id = parseInt(req.params["id"], 10);
   const note = await service.getNoteById(id);
   if (!note) {
@@ -28,7 +28,7 @@ const validateNote = (note) => {
   });
   return schema.validate(note);
 };
-export const saveNoteHandler = async ({ body }, res): Promise<void> => {
+export const saveNote = async ({ body }, res): Promise<void> => {
   const { error } = validateNote(body);
   if (error) res.status(400).send(error);
   else {
@@ -36,7 +36,7 @@ export const saveNoteHandler = async ({ body }, res): Promise<void> => {
     res.status(200).send(id.toString());
   }
 };
-export const deleteNoteByIdHandler = async (req, res): Promise<void> => {
+export const deleteNoteById = async (req, res): Promise<void> => {
   const id = parseInt(req.params["id"], 10);
   const noteDeleted = await service.deleteNoteById(id);
   if (noteDeleted) {
