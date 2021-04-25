@@ -1,12 +1,14 @@
-const express = require("express");
-const Joi = require("joi");
-const cors = require("cors");
-const _ = require("lodash");
+import express from "express";
+import joi from "joi";
+import cors from "cors";
+import _ from "lodash";
 
-const store = require("./store.js");
+import * as store from "./store";
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 app.get("/", (req, res) => {
   res.status(200).send();
 });
@@ -30,20 +32,19 @@ app.get("/notes/:id", async (req, res) => {
 });
 
 // Validation
-function validateNote(note) {
-  const schema = Joi.object({
-    title: Joi.string().required(),
-    noteContent: Joi.string().required(),
-    id: Joi.number(),
-    lastUpdated: Joi.date(),
+const validateNote = (note) => {
+  const schema = joi.object({
+    title: joi.string().required(),
+    noteContent: joi.string().required(),
+    id: joi.number(),
+    lastUpdated: joi.date(),
   });
   return schema.validate(note);
-}
+};
 
 //post: Making a new note
 app.post("/notes", async (req, res) => {
   const { error } = validateNote(req.body);
-
   if (error) return res.status(400).send(error);
   const notes = await store.readNotes();
   const noteIndex = _.findIndex(notes, (n) => n.id === req.body.id);
@@ -60,7 +61,6 @@ app.post("/notes", async (req, res) => {
     };
     notes.push(note);
   }
-
   await store.writeNotes(notes);
   res.status(200).send(`${req.body.id}`);
 });
@@ -81,4 +81,4 @@ app.delete("/notes/:id", async (req, res) => {
   }
 });
 
-module.exports = app;
+export default app;
