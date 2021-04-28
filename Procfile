@@ -1,1 +1,1 @@
-web: cd ./server && npm install -g yarn typescript && yarn install && yarn start
+web: cd ./server && npm install -g yarn typescript && yarn install && SERVER_PORT=8000 yarn start
