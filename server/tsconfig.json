@@ -10,5 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "typeRoots": ["./node_modules/@types", "./types.d.ts"]
-  }
+  },
+  "exclude": ["test", "node_modules"]
 }
