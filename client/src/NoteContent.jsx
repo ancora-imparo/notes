@@ -3,8 +3,12 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import { HtmlEditor, MenuBar } from "@aeaton/react-prosemirror";
-import { options, menu } from "@aeaton/react-prosemirror-config-default";
+import { HtmlEditor, Toolbar, Editor } from "@aeaton/react-prosemirror";
+import {
+  plugins,
+  schema,
+  toolbar,
+} from "@aeaton/react-prosemirror-config-default";
 import { Formik, Form } from "formik";
 import axios from "axios";
 import { format } from "date-fns";
@@ -13,7 +17,6 @@ import * as constants from "./constants";
 import "./editor.css";
 const NoteContent = (props) => {
   const { noteSelected, setNotes, setNoteSelected, handleCreateNote } = props;
-
   if (!noteSelected) {
     return null;
   }
@@ -84,18 +87,14 @@ const NoteContent = (props) => {
           />
 
           <HtmlEditor
-            options={options}
+            schema={schema}
+            plugins={plugins}
             value={editorContent}
-            onChange={(c) => {
-              setEditorContent(c);
-            }}
-            render={({ editor, view }) => (
-              <div style={{ margin: 5 }}>
-                <MenuBar menu={menu} view={view} />
-                {editor}
-              </div>
-            )}
-          />
+            handleChange={setEditorContent}
+            debounce={250}>
+            <Toolbar toolbar={toolbar} />
+            <Editor autoFocus />
+          </HtmlEditor>
           <div
             style={{
               backgroundColor: "turquoise",
