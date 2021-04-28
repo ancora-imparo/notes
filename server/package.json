@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node build/server.js",
     "build": "tsc",
+    "preinstall": "npm install -g yarn typescript",
     "postinstall": "npm run build",
     "dev": "tsnd --respawn --transpile-only server.ts",
     "lint": "eslint . --ext .ts",
