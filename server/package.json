@@ -5,9 +5,10 @@
   "main": "build/index.js",
   "typings": "types.d.ts",
   "scripts": {
-    "start": "tsc && node build/server.js",
+    "start": "node build/server.js",
+    "build": "tsc",
+    "postinstall": "npm run build",
     "dev": "tsnd --respawn --transpile-only server.ts",
-    "build": "tsc --project ./",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest"
