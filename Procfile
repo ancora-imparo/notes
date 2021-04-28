@@ -1,1 +1,1 @@
-web: cd ./server && npm install -g yarn && yarn install && yarn start
+web: cd ./server && npm install -g yarn typescript && yarn install && yarn start
