@@ -85,16 +85,17 @@ const NoteContent = (props) => {
             onChange={handleChange}
             fullWidth
           />
-
-          <HtmlEditor
-            schema={schema}
-            plugins={plugins}
-            value={editorContent}
-            handleChange={setEditorContent}
-            debounce={250}>
-            <Toolbar toolbar={toolbar} />
-            <Editor autoFocus />
-          </HtmlEditor>
+          <div style={{ margin: "4px" }}>
+            <HtmlEditor
+              schema={schema}
+              plugins={plugins}
+              value={editorContent}
+              handleChange={setEditorContent}
+              debounce={250}>
+              <Toolbar toolbar={toolbar} />
+              <Editor autoFocus />
+            </HtmlEditor>
+          </div>
           <div
             style={{
               backgroundColor: "turquoise",
