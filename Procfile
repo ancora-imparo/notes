@@ -1,1 +1,1 @@
-web: cd ./server && npm install -g yarn && yarn install && SERVER_PORT=8000 yarn start
+web: cd ./server && npm config set scripts-prepend-node-path auto && npm install -g yarn && yarn install --frozen-lockfile && yarn start
