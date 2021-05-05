@@ -11,7 +11,7 @@ const initialiseTable = async (): Promise<void> => {
   try {
     const client = await pool.connect();
     const result = await client.query(
-      "create table notes(id serial primary key,title varchar(30) not null , note_content text not null,created text,  updated  text)"
+      `create table notes(id serial primary key,title varchar(30) not null , "noteContent" text not null,created text,  "lastUpdated"  text)`
     );
     const results = { results: result ? result.rows : null };
     client.release();
@@ -38,7 +38,7 @@ export const insertNote = async (note: Note): Promise<any> => {
   try {
     const client = await pool.connect();
     const result = await client.query(
-      `insert into notes(title, note_content, created, updated) values('${note.title}', '${note.noteContent}', '${note.created}','${note.lastUpdated}')`
+      `insert into notes(title, "noteContent", created, "lastUpdated") values('${note.title}', '${note.noteContent}', '${note.created}','${note.lastUpdated}')`
     );
     const results = { results: result ? result.rows : null };
     return results;
@@ -52,7 +52,7 @@ export const updateNote = async (note): Promise<any> => {
   try {
     const client = await pool.connect();
     const result = await client.query(
-      `UPDATE notes SET title = '${note.title}', note_content = '${note.noteContent}' , updated = '${note.lastUpdated}' WHERE id = ${note.id};`
+      `UPDATE notes SET title = '${note.title}', "noteContent" = '${note.noteContent}' , "lastUpdated" = '${note.lastUpdated}' WHERE id = ${note.id};`
     );
     const results = { results: result ? result.rows : null };
     return results;
