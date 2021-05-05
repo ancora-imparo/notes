@@ -15,9 +15,11 @@ export const getNoteById = async (id: number): Promise<Note | undefined> => {
 
 export const saveNote = async (note: Note): Promise<number> => {
   const notes = await store.readNotes();
-  const noteIndex = _.findIndex(notes, (n) => n.id === note.id);
+  const noteIndex = _.findIndex(notes, (n: Note) => n.id === note.id);
   if (noteIndex >= 0) {
-    notes[noteIndex] = { ...notes[noteIndex], ...note };
+    const updatedNote = { ...notes[noteIndex], ...note };
+    updatedNote.lastUpdated = Date();
+    store.updateNote(updatedNote);
   } else {
     note.id = Math.max(0, ...notes.map((item) => item.id)) + 1;
     const newNote = {
@@ -27,20 +29,19 @@ export const saveNote = async (note: Note): Promise<number> => {
       lastUpdated: Date(),
       noteContent: note.noteContent,
     };
-    notes.push(newNote);
+    store.insertNote(newNote);
   }
-  await store.writeNotes(notes);
   return note.id;
 };
 
-export const deleteNoteById = async (id: number): Promise<boolean> => {
-  const notes = await store.readNotes();
-  const noteExist = notes.find((element) => element.id === id);
-  if (noteExist) {
-    const updatedNotes = notes.filter((element) => {
-      return element.id !== id;
-    });
-    await store.writeNotes(updatedNotes);
-  }
-  return !!noteExist;
-};
+// export const deleteNoteById = async (id: number): Promise<boolean> => {
+//   const notes = await store.readNotes();
+//   const noteExist = notes.find((element) => element.id === id);
+//   if (noteExist) {
+//     const updatedNotes = notes.filter((element) => {
+//       return element.id !== id;
+//     });
+//     await store.writeNotes(updatedNotes);
+//   }
+//   return !!noteExist;
+// };

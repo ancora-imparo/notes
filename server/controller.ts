@@ -45,15 +45,15 @@ export const saveNote = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const deleteNoteById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const id = parseInt(req.params["id"], 10);
-  const noteDeleted = await service.deleteNoteById(id);
-  if (noteDeleted) {
-    res.status(200).send();
-  } else {
-    res.status(400).send("Bad request");
-  }
-};
+// export const deleteNoteById = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   const id = parseInt(req.params["id"], 10);
+//   const noteDeleted = await service.deleteNoteById(id);
+//   if (noteDeleted) {
+//     res.status(200).send();
+//   } else {
+//     res.status(400).send("Bad request");
+//   }
+// };
