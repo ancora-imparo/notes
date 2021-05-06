@@ -17,7 +17,8 @@ const handleSQLQuery = async (sqlQuery) => {
 
 export const initialiseSQLTable = async (): Promise<void> => {
   await handleSQLQuery(
-    `CREATE TABLE IF NOT EXISTS notes(id serial primary key,title varchar(30) not null , "noteContent" text not null,created text,  "lastUpdated"  text)`
+    `CREATE TABLE IF NOT EXISTS notes(id serial primary key,title varchar(30) not null , "noteContent" text not null,created text,  "lastUpdated"  text);
+    CREATE INDEX IF NOT EXISTS index ON notes(id)`
   );
 };
 
