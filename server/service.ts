@@ -1,24 +1,14 @@
 import _ from "lodash";
+
 import { pool } from "./server";
 
-const readNotes = async (): Promise<Note[]> => {
+const handleSQLQuery = async (sqlQuery) => {
   try {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM notes");
+    const result = await client.query(sqlQuery);
     const { results } = { results: result ? result.rows : null };
     client.release();
     return results!;
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-};
-
-const saveNoteQuery = async (note: Note, sqlQuery): Promise<void> => {
-  try {
-    const client = await pool.connect();
-    await client.query(sqlQuery);
-    client.release();
   } catch (err) {
     console.error(err);
     return err;
@@ -26,35 +16,29 @@ const saveNoteQuery = async (note: Note, sqlQuery): Promise<void> => {
 };
 
 export const initialiseSQLTable = async (): Promise<void> => {
-  try {
-    const client = await pool.connect();
-    await client.query(
-      `CREATE TABLE IF NOT EXISTS notes(id serial primary key,title varchar(30) not null , "noteContent" text not null,created text,  "lastUpdated"  text)`
-    );
-    client.release();
-  } catch (err) {
-    console.error(err);
-  }
+  await handleSQLQuery(
+    `CREATE TABLE IF NOT EXISTS notes(id serial primary key,title varchar(30) not null , "noteContent" text not null,created text,  "lastUpdated"  text)`
+  );
 };
+
 export const getAllNotes = async (): Promise<Note[]> => {
-  const notes = await readNotes();
+  const notes = await handleSQLQuery(`SELECT * FROM notes`);
   return notes;
 };
 
 export const getNoteById = async (id: number): Promise<Note | undefined> => {
-  const notes = await readNotes();
+  const notes = await handleSQLQuery(`SELECT * FROM notes`);
   const note = notes.find((element) => element.id === id);
   return note;
 };
 
 export const saveNote = async (note: Note): Promise<number> => {
-  const notes = await readNotes();
-  const noteIndex = _.findIndex(notes, (n: Note) => n.id === note.id);
+  const notes: Note[] = await handleSQLQuery(`SELECT * FROM notes`);
+  const noteIndex = _.findIndex(notes, (n) => n.id === note.id);
   if (noteIndex >= 0) {
     const updatedNote = { ...notes[noteIndex], ...note };
     updatedNote.lastUpdated = Date();
-    saveNoteQuery(
-      updatedNote,
+    handleSQLQuery(
       `UPDATE notes SET title = '${updatedNote.title}', "noteContent" = '${updatedNote.noteContent}' , "lastUpdated" = '${updatedNote.lastUpdated}' WHERE id = ${updatedNote.id};`
     );
   } else {
@@ -65,22 +49,16 @@ export const saveNote = async (note: Note): Promise<number> => {
       lastUpdated: Date(),
       noteContent: note.noteContent,
     };
-    saveNoteQuery(
-      newNote,
+    handleSQLQuery(
       `INSERT INTO notes(title, "noteContent", created, "lastUpdated") values('${newNote.title}', '${newNote.noteContent}', '${newNote.created}','${newNote.lastUpdated}')`
     );
   }
   return note.id;
 };
 
-// export const deleteNoteById = async (id: number): Promise<boolean> => {
-//   const notes = await store.readNotes();
-//   const noteExist = notes.find((element) => element.id === id);
-//   if (noteExist) {
-//     const updatedNotes = notes.filter((element) => {
-//       return element.id !== id;
-//     });
-//     await store.writeNotes(updatedNotes);
-//   }
-//   return !!noteExist;
-// };
+export const deleteNoteById = async (id: number): Promise<boolean> => {
+  const [deleted] = await handleSQLQuery(
+    `DELETE FROM notes where id=${id} RETURNING id`
+  );
+  return !!deleted;
+};

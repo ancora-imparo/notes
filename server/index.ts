@@ -19,6 +19,6 @@ app.get("/notes/:id", controller.getNoteById);
 app.post("/notes", controller.saveNote);
 
 // Delete note by id
-// app.delete("/notes/:id", controller.deleteNoteById);
+app.delete("/notes/:id", controller.deleteNoteById);
 
 export default app;
