@@ -35,9 +35,10 @@ export const getNoteById = async (id: string): Promise<Note | undefined> => {
 };
 
 export const saveNote = async (note: Note): Promise<string> => {
-  const [noteExists] = await handleSQLQuery(
-    `SELECT * FROM notes WHERE id = '${note.id}'`
-  );
+  const [noteExists] =
+    !!note.id &&
+    (await handleSQLQuery(`SELECT * FROM notes WHERE id = '${note.id}'`));
+
   const now = new Date();
   const emptyNote = { id: uuidv4(), created: now };
   const mergedNote: Note = _.merge(emptyNote, noteExists, note, {

@@ -36,7 +36,6 @@ export const App = () => {
   };
   const handleCreateNote = () => {
     setNoteSelected({
-      id: 0,
       title: "",
       noteContent: '"<p></p>"',
       created: Date(),

@@ -30,7 +30,6 @@ const validateNote = (note) => {
     title: joi.string().required(),
     noteContent: joi.string().required(),
     id: joi.string(),
-    lastUpdated: joi.date(),
   });
   return schema.validate(note);
 };

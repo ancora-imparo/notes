@@ -1,7 +1,7 @@
 interface Note {
   id: string;
   title: string;
-  created: string;
-  lastUpdated: string;
+  created: Date;
+  lastUpdated: Date;
   noteContent: string;
 }
