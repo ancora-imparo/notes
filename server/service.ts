@@ -12,7 +12,7 @@ const handleSQLQuery = async (sqlQuery, values?) => {
 
 export const initialiseSQLTable = async (): Promise<void> => {
   await handleSQLQuery(
-    `CREATE TABLE IF NOT EXISTS notes(id uuid PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ);
+    `CREATE TABLE IF NOT EXISTS notes(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ);
     CREATE UNIQUE INDEX IF NOT EXISTS index ON notes(id);`
   );
 };
@@ -51,7 +51,7 @@ export const saveNote = async (note: Note): Promise<string> => {
       mergedNote.created,
     ]
   );
-  return note.id;
+  return mergedNote.id;
 };
 
 export const deleteNoteById = async (id: string): Promise<boolean> => {

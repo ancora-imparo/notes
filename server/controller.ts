@@ -16,7 +16,7 @@ export const getNoteById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const id = req.params["id"];
+  const id = req.params.id;
   const note = await service.getNoteById(id);
   if (!note) {
     res.status(404).send("Not Found");
@@ -48,7 +48,7 @@ export const deleteNoteById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const id = req.params["id"];
+  const id = req.params.id;
   const noteDeleted = await service.deleteNoteById(id);
   if (noteDeleted) {
     res.status(200).send();

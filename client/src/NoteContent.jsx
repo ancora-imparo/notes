@@ -117,7 +117,7 @@ const NoteContent = (props) => {
               color="primary"
               style={{ float: "right" }}
               type="submit">
-              {noteSelected.id === undefined ? `Create` : `Save`}
+              {!noteSelected.id ? `Create` : `Save`}
             </SubmitButton>
           </div>
         </Form>
