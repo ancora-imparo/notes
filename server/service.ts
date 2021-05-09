@@ -1,46 +1,62 @@
 import _ from "lodash";
+import { v4 as uuidv4 } from "uuid";
 
-import * as store from "./store";
+import { pool } from "./server";
+
+const handleSQLQuery = async (sqlQuery, values?) => {
+  const client = await pool.connect();
+  const result: any = await client.query(sqlQuery, values);
+  client.release();
+  return result.rows;
+};
+
+export const initialiseSQLTable = async (): Promise<void> => {
+  await handleSQLQuery(
+    `CREATE TABLE IF NOT EXISTS notes(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ);
+    CREATE UNIQUE INDEX IF NOT EXISTS index ON notes(id);`
+  );
+};
 
 export const getAllNotes = async (): Promise<Note[]> => {
-  const notes = await store.readNotes();
+  const notes = await handleSQLQuery(`SELECT * FROM notes`);
   return notes;
 };
 
-export const getNoteById = async (id: number): Promise<Note | undefined> => {
-  const notes = await store.readNotes();
-  const note = notes.find((element) => element.id === id);
+export const getNoteById = async (id: string): Promise<Note | undefined> => {
+  if (!id) {
+    return undefined;
+  }
+  const [note] = await handleSQLQuery(`SELECT * FROM notes WHERE id = '${id}'`);
   return note;
 };
 
-export const saveNote = async (note: Note): Promise<number> => {
-  const notes = await store.readNotes();
-  const noteIndex = _.findIndex(notes, (n) => n.id === note.id);
-  if (noteIndex >= 0) {
-    notes[noteIndex] = { ...notes[noteIndex], ...note };
-  } else {
-    note.id = Math.max(0, ...notes.map((item) => item.id)) + 1;
-    const newNote = {
-      id: note.id,
-      title: note.title,
-      created: Date(),
-      lastUpdated: Date(),
-      noteContent: note.noteContent,
-    };
-    notes.push(newNote);
-  }
-  await store.writeNotes(notes);
-  return note.id;
+export const saveNote = async (note: Note): Promise<string> => {
+  const noteExists = await getNoteById(note.id);
+  const now = new Date();
+  const emptyNote = { id: uuidv4(), created: now };
+  const mergedNote: Note = _.merge(emptyNote, noteExists, note, {
+    lastUpdated: now,
+  });
+  await handleSQLQuery(
+    `INSERT INTO notes (id, title, "noteContent", "lastUpdated", created)
+  VALUES ($1, $2, $3, $4, $5)
+  ON CONFLICT (id)
+  DO UPDATE SET
+  title = $2, "noteContent" = $3 , "lastUpdated" = $4;`,
+    [
+      mergedNote.id,
+      mergedNote.title,
+      mergedNote.noteContent,
+      mergedNote.lastUpdated,
+      mergedNote.created,
+    ]
+  );
+  return mergedNote.id;
 };
 
-export const deleteNoteById = async (id: number): Promise<boolean> => {
-  const notes = await store.readNotes();
-  const noteExist = notes.find((element) => element.id === id);
-  if (noteExist) {
-    const updatedNotes = notes.filter((element) => {
-      return element.id !== id;
-    });
-    await store.writeNotes(updatedNotes);
-  }
-  return !!noteExist;
+export const deleteNoteById = async (id: string): Promise<boolean> => {
+  const [deleted] = await handleSQLQuery(
+    `DELETE FROM notes WHERE id='${id}' RETURNING id`
+  );
+  return !!deleted;
 };

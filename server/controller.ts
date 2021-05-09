@@ -16,7 +16,7 @@ export const getNoteById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const id = parseInt(req.params["id"], 10);
+  const id = req.params.id;
   const note = await service.getNoteById(id);
   if (!note) {
     res.status(404).send("Not Found");
@@ -29,8 +29,7 @@ const validateNote = (note) => {
   const schema = joi.object({
     title: joi.string().required(),
     noteContent: joi.string().required(),
-    id: joi.number(),
-    lastUpdated: joi.date(),
+    id: joi.string(),
   });
   return schema.validate(note);
 };
@@ -41,7 +40,7 @@ export const saveNote = async (req: Request, res: Response): Promise<void> => {
   if (error) res.status(400).send(error);
   else {
     const id = await service.saveNote(body);
-    res.status(200).send(id.toString());
+    res.status(200).send(id);
   }
 };
 
@@ -49,7 +48,7 @@ export const deleteNoteById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const id = parseInt(req.params["id"], 10);
+  const id = req.params.id;
   const noteDeleted = await service.deleteNoteById(id);
   if (noteDeleted) {
     res.status(200).send();

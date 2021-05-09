@@ -30,7 +30,6 @@ const NoteContent = (props) => {
         title: values.title,
         noteContent: JSON.stringify(editorContent),
         id: noteSelected.id,
-        lastUpdated: Date(),
       });
 
       const response = await axios.get(constants.ROUTE_NOTES);
@@ -118,7 +117,7 @@ const NoteContent = (props) => {
               color="primary"
               style={{ float: "right" }}
               type="submit">
-              {noteSelected.id == 0 ? `Create` : `Save`}
+              {!noteSelected.id ? `Create` : `Save`}
             </SubmitButton>
           </div>
         </Form>
@@ -134,7 +133,7 @@ NoteContent.propTypes = {
     PropTypes.shape({
       title: PropTypes.string,
       noteContent: PropTypes.string,
-      id: PropTypes.number,
+      id: PropTypes.string,
       created: PropTypes.instanceOf(Date),
     })
   ),
