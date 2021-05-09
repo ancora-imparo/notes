@@ -5,10 +5,9 @@ import { pool } from "./server";
 
 const handleSQLQuery = async (sqlQuery, values?) => {
   const client = await pool.connect();
-  const result = await client.query(sqlQuery, values);
-  const results: any = _.get(result, "rows", null);
+  const result: any = await client.query(sqlQuery, values);
   client.release();
-  return results;
+  return result.rows;
 };
 
 export const initialiseSQLTable = async (): Promise<void> => {
@@ -24,21 +23,15 @@ export const getAllNotes = async (): Promise<Note[]> => {
 };
 
 export const getNoteById = async (id: string): Promise<Note | undefined> => {
-  try {
-    const [note] = await handleSQLQuery(
-      `SELECT * FROM notes WHERE id = '${id}'`
-    );
-    return note;
-  } catch (_) {
-    return;
+  if (!id) {
+    return undefined;
   }
+  const [note] = await handleSQLQuery(`SELECT * FROM notes WHERE id = '${id}'`);
+  return note;
 };
 
 export const saveNote = async (note: Note): Promise<string> => {
-  const [noteExists] =
-    !!note.id &&
-    (await handleSQLQuery(`SELECT * FROM notes WHERE id = '${note.id}'`));
-
+  const noteExists = await getNoteById(note.id);
   const now = new Date();
   const emptyNote = { id: uuidv4(), created: now };
   const mergedNote: Note = _.merge(emptyNote, noteExists, note, {
