@@ -3,8 +3,12 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import { HtmlEditor, MenuBar } from "@aeaton/react-prosemirror";
-import { options, menu } from "@aeaton/react-prosemirror-config-default";
+import { HtmlEditor, Toolbar, Editor } from "@aeaton/react-prosemirror";
+import {
+  plugins,
+  schema,
+  toolbar,
+} from "@aeaton/react-prosemirror-config-default";
 import { Formik, Form } from "formik";
 import axios from "axios";
 import { format } from "date-fns";
@@ -18,7 +22,6 @@ const NoteContent = (props: {
   handleCreateNote: () => void;
 }): JSX.Element | null => {
   const { noteSelected, setNotes, setNoteSelected, handleCreateNote } = props;
-
   if (!noteSelected) {
     return null;
   }
@@ -32,7 +35,6 @@ const NoteContent = (props: {
         title: values.title,
         noteContent: JSON.stringify(editorContent),
         id: noteSelected.id,
-        lastUpdated: Date(),
       });
 
       const response = await axios.get(constants.ROUTE_NOTES);
@@ -87,20 +89,17 @@ const NoteContent = (props: {
             onChange={handleChange}
             fullWidth
           />
-
-          <HtmlEditor
-            options={options}
-            value={editorContent}
-            onChange={(c) => {
-              setEditorContent(c);
-            }}
-            render={({ editor, view }) => (
-              <div style={{ margin: 5 }}>
-                <MenuBar menu={menu} view={view} />
-                {editor}
-              </div>
-            )}
-          />
+          <div style={{ margin: "4px" }}>
+            <HtmlEditor
+              schema={schema}
+              plugins={plugins}
+              value={editorContent}
+              handleChange={setEditorContent}
+              debounce={250}>
+              <Toolbar toolbar={toolbar} />
+              <Editor autoFocus />
+            </HtmlEditor>
+          </div>
           <div
             style={{
               backgroundColor: "turquoise",
@@ -123,7 +122,7 @@ const NoteContent = (props: {
               color="primary"
               style={{ float: "right" }}
               type="submit">
-              {noteSelected.id == 0 ? `Create` : `Save`}
+              {!noteSelected.id ? `Create` : `Save`}
             </SubmitButton>
           </div>
         </Form>
@@ -139,7 +138,7 @@ NoteContent.propTypes = {
     PropTypes.shape({
       title: PropTypes.string,
       noteContent: PropTypes.string,
-      id: PropTypes.number,
+      id: PropTypes.string,
       created: PropTypes.instanceOf(Date),
     })
   ),

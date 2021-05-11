@@ -2,12 +2,15 @@
   "name": "notes",
   "version": "1.0.0",
   "description": "Simple note taking app",
-  "main": "index.js",
+  "main": "build/index.js",
+  "typings": "types.d.ts",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix",
+    "start": "node build/server.js",
+    "build": "tsc",
+    "postinstall": "npm run build",
+    "dev": "tsnd --respawn --transpile-only server.ts",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest"
   },
   "repository": {
@@ -24,15 +27,28 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "joi": "^17.3.0",
-    "lodash": "^4.17.20"
+    "joi": "^17.4.0",
+    "lodash": "^4.17.21",
+    "pg": "^8.6.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^7.16.0",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-plugin-prettier": "^3.3.0",
+    "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.22",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.41",
+    "@types/pg": "^7.14.11",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
-    "supertest": "^6.0.1"
+    "supertest": "^6.0.1",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
   }
 }

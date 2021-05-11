@@ -39,7 +39,6 @@ export const App: React.FC = () => {
   };
   const handleCreateNote = () => {
     setNoteSelected({
-      id: 0,
       title: "",
       noteContent: '"<p></p>"',
       created: Date(),
