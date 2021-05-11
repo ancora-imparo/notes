@@ -72,13 +72,13 @@ const NoteContent = (props: {
   }))(Button);
 
   return (
-    <Formik initialValues={{ title: noteSelected.title }}>
+    <Formik
+      initialValues={{ title: noteSelected.title }}
+      onSubmit={(values) => {
+        handleOnSubmit(values);
+      }}>
       {({ values, handleChange }) => (
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleOnSubmit(values);
-          }}>
+        <Form>
           <TextField
             id="title"
             name="title"

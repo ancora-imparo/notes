@@ -16,7 +16,7 @@ const NotesList = (props: {
       component="span"
       button
       onClick={() => {
-        handleNoteSelect(note.id);
+        handleNoteSelect(note.id!);
       }}>
       <ListItemText
         primary={note.title}
