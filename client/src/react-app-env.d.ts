@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 interface Note {
-  id: number;
+  id?: string;
   title?: string;
   created?: string;
   lastUpdated?: string;

@@ -34,7 +34,7 @@ export const App: React.FC = () => {
 
   const [noteSelected, setNoteSelected] = useState<Note | undefined>();
 
-  const handleNoteSelect = (id: number) => {
+  const handleNoteSelect = (id: string) => {
     setNoteSelected(notes.find((note) => note.id === id));
   };
   const handleCreateNote = () => {

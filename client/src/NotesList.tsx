@@ -7,7 +7,7 @@ import { stringPreview } from "./utils";
 
 const NotesList = (props: {
   notes: Note[];
-  handleNoteSelect: (id: number) => void;
+  handleNoteSelect: (id: string) => void;
 }): JSX.Element => {
   const { notes, handleNoteSelect } = props;
   const List = notes.map((note) => (
