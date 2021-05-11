@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
 import { HtmlEditor, Toolbar, Editor } from "@aeaton/react-prosemirror";
 import {
   plugins,
@@ -129,19 +128,6 @@ const NoteContent = (props: {
       )}
     </Formik>
   );
-};
-NoteContent.propTypes = {
-  setNotes: PropTypes.func,
-  handleCreateNote: PropTypes.func,
-  setNoteSelected: PropTypes.func,
-  noteSelected: PropTypes.objectOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      noteContent: PropTypes.string,
-      id: PropTypes.string,
-      created: PropTypes.instanceOf(Date),
-    })
-  ),
 };
 
 export default NoteContent;

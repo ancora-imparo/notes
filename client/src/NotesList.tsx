@@ -1,7 +1,6 @@
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import PropTypes from "prop-types";
 import { format } from "date-fns";
 import { stringPreview } from "./utils";
 
@@ -33,9 +32,4 @@ const NotesList = (props: {
 
   return <div>{List}</div>;
 };
-NotesList.propTypes = {
-  notes: PropTypes.array,
-  handleNoteSelect: PropTypes.func,
-};
-
 export default NotesList;
