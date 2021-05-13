@@ -32,7 +32,7 @@ export const App: React.FC = () => {
     getNotes();
   }, []);
 
-  const [noteSelected, setNoteSelected] = useState<Note | undefined>();
+  const [noteSelected, setNoteSelected] = useState<DraftNote>();
 
   const handleNoteSelect = (id: string) => {
     setNoteSelected(notes.find((note) => note.id === id));
