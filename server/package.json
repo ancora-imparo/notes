@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Simple note taking app",
   "main": "build/index.js",
-  "typings": "types.d.ts",
+  "typings": "../types.d.ts",
   "scripts": {
     "start": "node build/server.js",
     "build": "tsc",
