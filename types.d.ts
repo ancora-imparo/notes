@@ -1,4 +1,3 @@
-/// <reference types="react-scripts" />
 interface Note {
   id: string;
   title: string;
