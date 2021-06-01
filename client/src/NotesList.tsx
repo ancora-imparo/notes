@@ -1,20 +1,21 @@
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import PropTypes from "prop-types";
 import { format } from "date-fns";
 import { stringPreview } from "./utils";
 
-const NotesList = (props) => {
+const NotesList = (props: {
+  notes: Note[];
+  handleNoteSelect: (id: string) => void;
+}): JSX.Element => {
   const { notes, handleNoteSelect } = props;
-
   const List = notes.map((note) => (
     <ListItem
       key={note.id}
       component="span"
       button
       onClick={() => {
-        handleNoteSelect(note.id);
+        handleNoteSelect(note.id!);
       }}>
       <ListItemText
         primary={note.title}
@@ -31,9 +32,4 @@ const NotesList = (props) => {
 
   return <div>{List}</div>;
 };
-NotesList.propTypes = {
-  notes: PropTypes.array,
-  handleNoteSelect: PropTypes.func,
-};
-
 export default NotesList;

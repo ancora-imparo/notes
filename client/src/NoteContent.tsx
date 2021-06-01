@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
 import { HtmlEditor, Toolbar, Editor } from "@aeaton/react-prosemirror";
 import {
   plugins,
@@ -15,7 +14,12 @@ import { format } from "date-fns";
 
 import * as constants from "./constants";
 import "./editor.css";
-const NoteContent = (props) => {
+const NoteContent = (props: {
+  noteSelected?: DraftNote;
+  setNotes: (notes: Note[]) => void;
+  setNoteSelected: (noteSelected: Note) => void;
+  handleCreateNote: () => void;
+}): JSX.Element | null => {
   const { noteSelected, setNotes, setNoteSelected, handleCreateNote } = props;
   if (!noteSelected) {
     return null;
@@ -24,7 +28,7 @@ const NoteContent = (props) => {
   const [editorContent, setEditorContent] = useState(
     JSON.parse(noteSelected.noteContent)
   );
-  const handleOnSubmit = async (values) => {
+  const handleOnSubmit = async (values: { title?: string }) => {
     try {
       const postResponse = await axios.post(constants.ROUTE_NOTES, {
         title: values.title,
@@ -35,7 +39,7 @@ const NoteContent = (props) => {
       const response = await axios.get(constants.ROUTE_NOTES);
       setNotes(response.data);
       setNoteSelected(
-        response.data.find((note) => note.id === postResponse.data)
+        response.data.find((note: Note) => note.id === postResponse.data)
       );
     } catch (err) {
       console.error("error:", err.response);
@@ -67,13 +71,13 @@ const NoteContent = (props) => {
   }))(Button);
 
   return (
-    <Formik initialValues={{ title: noteSelected.title }}>
+    <Formik
+      initialValues={{ title: noteSelected.title }}
+      onSubmit={(values) => {
+        handleOnSubmit(values);
+      }}>
       {({ values, handleChange }) => (
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleOnSubmit(values);
-          }}>
+        <Form>
           <TextField
             id="title"
             name="title"
@@ -124,19 +128,6 @@ const NoteContent = (props) => {
       )}
     </Formik>
   );
-};
-NoteContent.propTypes = {
-  setNotes: PropTypes.func,
-  handleCreateNote: PropTypes.func,
-  setNoteSelected: PropTypes.func,
-  noteSelected: PropTypes.objectOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      noteContent: PropTypes.string,
-      id: PropTypes.string,
-      created: PropTypes.instanceOf(Date),
-    })
-  ),
 };
 
 export default NoteContent;

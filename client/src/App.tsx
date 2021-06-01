@@ -10,8 +10,8 @@ import NotesList from "./NotesList";
 import NoteContent from "./NoteContent";
 import * as constants from "./constants";
 
-export const App = () => {
-  const useStyles = makeStyles((theme) => ({
+export const App: React.FC = () => {
+  const useStyles: any = makeStyles((theme) => ({
     root: {
       width: "100%",
       maxWidth: 360,
@@ -19,19 +19,22 @@ export const App = () => {
     },
   }));
 
-  const [notes, setNotes] = useState([]);
-  useEffect(async () => {
-    try {
-      const response = await axios.get(constants.ROUTE_NOTES);
-      setNotes(response.data);
-    } catch (err) {
-      console.error("error:", err);
-    }
+  const [notes, setNotes] = useState<Note[]>([]);
+  useEffect(() => {
+    const getNotes = async () => {
+      try {
+        const response = await axios.get(constants.ROUTE_NOTES);
+        setNotes(response.data);
+      } catch (err) {
+        console.error("error:", err);
+      }
+    };
+    getNotes();
   }, []);
 
-  const [noteSelected, setNoteSelected] = useState();
+  const [noteSelected, setNoteSelected] = useState<DraftNote>();
 
-  const handleNoteSelect = (id) => {
+  const handleNoteSelect = (id: string) => {
     setNoteSelected(notes.find((note) => note.id === id));
   };
   const handleCreateNote = () => {
