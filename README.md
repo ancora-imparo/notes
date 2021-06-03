@@ -3,19 +3,20 @@
 > A cool note app
 	
 ## About the project
-It is a simple app to take notes. It taught us to build server and client with the stack mentioned above and integrate them to work together.
+It is a simple app to take notes. It supports richtext using react-prosemirror. It taught us to build server and client with the stack mentioned above and integrate them to work together.
 
 #### Checkout the app client at https://ancora-imparo-notes-web.netlify.app/ 
-![image](https://user-images.githubusercontent.com/36930635/120609104-85321d00-c46f-11eb-8808-b58f5de1b103.png)
+![notes-client](https://user-images.githubusercontent.com/36930635/120647639-7449d180-c498-11eb-9d1b-00786bf8a5b7.png)
+
 
 #### Server: https://ancora-imparo-notes-api.herokuapp.com/
-![image](https://user-images.githubusercontent.com/36930635/120609395-bf9bba00-c46f-11eb-9453-17dcdde2edd3.png)
 
 ## App Stack:
 -  Client:
 	- ReactJs
 	- Typescript (tsx)
 	- REST API
+	
 - Server: 
 	- NodeJs & Typescript
 	- Express 
