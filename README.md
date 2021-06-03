@@ -13,12 +13,12 @@ It is a simple app to take notes. It supports richtext using react-prosemirror. 
 
 ## App Stack:
 -  Client:
-	- ReactJs
-	- Typescript (tsx)
+	- React.js
+	- Typescript
 	- REST API
 	
 - Server: 
-	- NodeJs & Typescript
+	- Typescript
 	- Express 
 	- PostgreSQL
 	- Jest for testing
