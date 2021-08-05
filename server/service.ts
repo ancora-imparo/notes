@@ -2,6 +2,7 @@ import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
 import { pool } from "./server";
+import { logger } from "./index";
 
 const handleSQLQuery = async (sqlQuery, values?) => {
   const client = await pool.connect();
@@ -23,6 +24,7 @@ export const getAllNotes = async (): Promise<Note[]> => {
 };
 
 export const getNoteById = async (id: string): Promise<Note | undefined> => {
+  logger.debug({ id }, "service, getNoteById, id");
   if (!id) {
     return undefined;
   }
@@ -31,6 +33,7 @@ export const getNoteById = async (id: string): Promise<Note | undefined> => {
 };
 
 export const saveNote = async (note: Note): Promise<string> => {
+  logger.debug(note, "service, saveNote, note");
   const noteExists = await getNoteById(note.id);
   const now = new Date();
   const emptyNote = { id: uuidv4(), created: now };
@@ -55,6 +58,7 @@ export const saveNote = async (note: Note): Promise<string> => {
 };
 
 export const deleteNoteById = async (id: string): Promise<boolean> => {
+  logger.debug({ id }, "service, deleteNoteById, id");
   const [deleted] = await handleSQLQuery(
     `DELETE FROM notes WHERE id='${id}' RETURNING id`
   );
