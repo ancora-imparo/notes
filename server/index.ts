@@ -1,18 +1,11 @@
 import express from "express";
-import Pino from "pino";
 import expressPino from "express-pino-logger";
 import cors from "cors";
 
 import * as controller from "./controller";
-
-export const logger = Pino({
-  level: process.env.LOG_LEVEL || "info",
-  prettyPrint: {
-    colorize: true,
-    translateTime: "yyyy-mm-dd HH:MM:ss",
-    ignore: "pid,hostname",
-  },
-});
+import path from "path";
+import { logger as parentLogger } from "./logger";
+const logger = parentLogger.child({ filename: path.basename(__filename) });
 
 const app = express();
 const expressLogger = expressPino({ logger });

@@ -2,7 +2,9 @@ import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
 import { pool } from "./server";
-import { logger } from "./index";
+import path from "path";
+import { logger as parentLogger } from "./logger";
+const logger = parentLogger.child({ filename: path.basename(__filename) });
 
 const handleSQLQuery = async (sqlQuery, values?) => {
   const client = await pool.connect();
@@ -16,6 +18,7 @@ export const initialiseSQLTable = async (): Promise<void> => {
     `CREATE TABLE IF NOT EXISTS notes(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ);
     CREATE UNIQUE INDEX IF NOT EXISTS index ON notes(id);`
   );
+  logger.debug("SQL table initialized");
 };
 
 export const getAllNotes = async (): Promise<Note[]> => {
@@ -24,7 +27,7 @@ export const getAllNotes = async (): Promise<Note[]> => {
 };
 
 export const getNoteById = async (id: string): Promise<Note | undefined> => {
-  logger.debug({ id }, "service, getNoteById, id");
+  logger.debug({ id }, "getNoteById, id");
   if (!id) {
     return undefined;
   }
@@ -33,7 +36,7 @@ export const getNoteById = async (id: string): Promise<Note | undefined> => {
 };
 
 export const saveNote = async (note: Note): Promise<string> => {
-  logger.debug(note, "service, saveNote, note");
+  logger.debug(note, "saveNote, note");
   const noteExists = await getNoteById(note.id);
   const now = new Date();
   const emptyNote = { id: uuidv4(), created: now };
@@ -58,7 +61,7 @@ export const saveNote = async (note: Note): Promise<string> => {
 };
 
 export const deleteNoteById = async (id: string): Promise<boolean> => {
-  logger.debug({ id }, "service, deleteNoteById, id");
+  logger.debug({ id }, "deleteNoteById, id");
   const [deleted] = await handleSQLQuery(
     `DELETE FROM notes WHERE id='${id}' RETURNING id`
   );

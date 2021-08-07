@@ -1,7 +1,10 @@
-import app, { logger } from "./index";
+import app from "./index";
 import * as env from "./env";
 import * as pg from "pg";
 import { initialiseSQLTable } from "./service";
+import path from "path";
+import { logger as parentLogger } from "./logger";
+const logger = parentLogger.child({ filename: path.basename(__filename) });
 
 export const pool = new pg.Pool({
   connectionString: env.DATABASE_URL,
@@ -12,7 +15,6 @@ export const pool = new pg.Pool({
 logger.debug("PG Pool initialized");
 
 initialiseSQLTable();
-logger.debug("SQL table initialized");
 
 const port = env.SERVER_PORT;
 app.listen(port, () => logger.info(`Listening at port ${port} ...`));
