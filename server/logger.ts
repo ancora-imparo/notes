@@ -1,12 +1,14 @@
 import Pino from "pino";
-import path from "path";
+
+import * as env from "./env";
+import _ from "lodash";
 
 export const logger = Pino({
-  level: process.env.LOG_LEVEL || "info",
+  level: env.LOG_LEVEL || "info",
   prettyPrint: {
     colorize: true,
-    messageFormat: "{filename}: {msg}",
-    translateTime: "yyyy-mm-dd HH:MM:ss",
-    ignore: "pid,hostname,filename",
+    messageFormat: env.LOG_MESSAGE_FORMAT,
+    translateTime: env.LOG_TIME_FORMAT,
+    ignore: env.LOG_IGNORE,
   },
-}).child({ filename: path.basename(__filename) });
+});
