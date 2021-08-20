@@ -24,6 +24,6 @@ services:
     volumes:
       - .:/app/
       - /app/node_modules
-    command: npm run test
+    command: npm test --detectOpenHandles
 networks:
   webnet:
