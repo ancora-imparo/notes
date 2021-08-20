@@ -6,9 +6,8 @@ jobs:
     name: Run test suite
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      POSTGRES_USER: "kartik"
-      POSTGRES_PASSWORD: "123"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "notes_data"
       COMPOSE_FILE: ./server/docker-compose.yml
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -25,4 +24,4 @@ jobs:
         run: docker-compose build
 
       - name: Run tests
-        run: docker-compose run app npm run test
+        run: docker-compose up
