@@ -1,14 +1,6 @@
 import _ from "lodash";
-import * as env from "./env";
-import * as pg from "pg";
 import { v4 as uuidv4 } from "uuid";
-
-const pool = new pg.Pool({
-  connectionString: env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+import pool from "./db";
 
 const handleSQLQuery = async (sqlQuery, values?) => {
   const client = await pool.connect();

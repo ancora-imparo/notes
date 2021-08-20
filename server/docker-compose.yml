@@ -1,25 +1,29 @@
 version: "3"
 services:
+  db:
+    image: postgres:10
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: notes_data
+    ports:
+      - "5432:5432"
   app:
+    image: server_app
     build: .
     depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: "${DATABASE_URL}"
-      NODE_ENV: development
-      PORT: 3000
+      - db
     ports:
-      - "3000:3000"
-    command: npm run dev
+      - "5000:5000"
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/notes_data?sslmode=disable"
+    networks:
+      - webnet
     volumes:
       - .:/app/
       - /app/node_modules
-
-  postgres:
-    image: postgres
-    ports:
-      - "35432:5432"
-    environment:
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRES_DB: "${POSTGRES_DB}"
+    command: npm run test
+networks:
+  webnet:
