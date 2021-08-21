@@ -1,6 +1,16 @@
 import request from "supertest";
 
 import app from "../index";
+import pool from "../db";
+
+const fun = async () => {
+  const client = await pool.connect();
+  await client.query(
+    `CREATE TABLE IF NOT EXISTS notes(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ);CREATE UNIQUE INDEX IF NOT EXISTS index ON notes(id);`
+  );
+  client.release();
+};
+fun();
 
 describe("http requests testing", () => {
   let secondId;
