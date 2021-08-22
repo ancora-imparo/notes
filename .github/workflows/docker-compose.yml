@@ -5,6 +5,7 @@ jobs:
   test:
     name: Run test suite
     runs-on: ubuntu-latest
+    timeout-minutes: 2.5
     env:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
