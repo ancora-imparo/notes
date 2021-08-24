@@ -3,17 +3,14 @@ import request from "supertest";
 import app from "../index";
 import pool from "../db";
 
-(async () => {
-  // Wait 10 seconds
-  await new Promise((res) => setTimeout(res, 10000));
-  const client = await pool.connect();
-  await client.query(
-    `CREATE TABLE IF NOT EXISTS notes(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ);CREATE UNIQUE INDEX IF NOT EXISTS index ON notes(id);`
-  );
-  client.release(true);
-})();
-
 describe("http requests testing", () => {
+  beforeAll(async () => {
+    const client = await pool.connect();
+    await client.query(
+      `CREATE TABLE IF NOT EXISTS "notes"(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ)`
+    );
+  });
+
   let secondId;
   test("Initial GET request", async () => {
     const response = await request(app).get("/notes");
@@ -85,5 +82,11 @@ describe("http requests testing", () => {
       "/notes/c61f1fc9-e0d2-43ce-a6c1-b5436cdebe7d"
     );
     expect(response.statusCode).toStrictEqual(400);
+  });
+
+  afterAll(async () => {
+    const client = await pool.connect();
+    await client.query(`DROP TABLE notes`);
+    client.release(true);
   });
 });
