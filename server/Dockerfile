@@ -4,4 +4,4 @@ COPY ./types.d.ts ../
 COPY . .
 RUN  npm install typescript -g && npm install
 EXPOSE 3000
-CMD npm run test
+CMD npm run test --detectOpenHandles
