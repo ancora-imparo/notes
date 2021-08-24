@@ -11,6 +11,6 @@
     "noImplicitAny": false,
     "typeRoots": ["./node_modules/@types", "../types.d.ts"]
   },
-  "exclude": ["build", "node_modules"],
+  "exclude": ["build", "node_modules", "jest.config.js"],
   "include": ["./", "../types.d.ts"]
 }
