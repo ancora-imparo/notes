@@ -9,6 +9,7 @@ describe("http requests testing", () => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS "notes"(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ)`
     );
+    client.release(true);
   });
 
   let secondId;

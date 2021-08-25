@@ -1,7 +1,7 @@
 FROM node
 WORKDIR /usr/app
-COPY ./types.d.ts ../
-COPY . .
+COPY types.d.ts ../
+COPY ./server .
 RUN  npm install typescript -g && npm install
 EXPOSE 3000
-CMD npm run test --detectOpenHandles
+CMD npm test 

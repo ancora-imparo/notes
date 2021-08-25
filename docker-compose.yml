@@ -12,7 +12,9 @@ services:
       - "5432:5432"
   app:
     image: server_app
-    build: .
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
     depends_on:
       - db
     ports:
