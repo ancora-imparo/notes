@@ -1,0 +1,31 @@
+version: "3"
+services:
+  db:
+    image: postgres:10
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: notes_data
+    ports:
+      - "5432:5432"
+  app:
+    image: server_app
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/notes_data?sslmode=disable"
+    networks:
+      - webnet
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    command: npm test
+networks:
+  webnet:

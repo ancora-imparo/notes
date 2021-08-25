@@ -1,8 +1,18 @@
 import request from "supertest";
 
 import app from "../index";
+import pool from "../db";
 
 describe("http requests testing", () => {
+  beforeAll(async () => {
+    const client = await pool.connect();
+    await client.query(
+      `CREATE TABLE IF NOT EXISTS "notes"(id UUID PRIMARY KEY, title VARCHAR(32) NOT NULL, "noteContent" TEXT NOT NULL, created TIMESTAMPTZ, "lastUpdated" TIMESTAMPTZ)`
+    );
+    client.release(true);
+  });
+
+  let secondId;
   test("Initial GET request", async () => {
     const response = await request(app).get("/notes");
     expect(response.statusCode).toBe(200);
@@ -32,6 +42,7 @@ describe("http requests testing", () => {
       title: "2nd",
       noteContent: "This is Second note",
     });
+    secondId = response.text;
     expect(response.statusCode).toBe(200);
   });
 
@@ -45,28 +56,38 @@ describe("http requests testing", () => {
   });
 
   test("GET request of second note by id", async () => {
-    const response = await request(app).get("/notes/2");
+    const response = await request(app).get(`/notes/${secondId}`);
     expect(response.statusCode).toStrictEqual(200);
     const noteJson: Note = response.body;
     expect(noteJson.title).toBe("2nd");
     expect(noteJson.noteContent).toBe("This is Second note");
   });
 
-  test("GET request by id to get 404 response", async () => {
-    const response = await request(app).get("/notes/99");
+  test("GET request by a random id to get 404 response", async () => {
+    const response = await request(app).get(
+      "/notes/c61f1fc9-e0d2-43ce-a6c1-b5436cdebe7d"
+    );
     expect(response.statusCode).toStrictEqual(404);
   });
 
   test("DELETE request of second note by id", async () => {
-    const response = await request(app).delete("/notes/2");
+    const response = await request(app).delete(`/notes/${secondId}`);
     expect(response.statusCode).toStrictEqual(200);
   });
   test("GET request of deleted second note", async () => {
-    const response = await request(app).get("/notes/2");
+    const response = await request(app).get(`/notes/${secondId}`);
     expect(response.statusCode).toStrictEqual(404);
   });
   test("DELETE request to get bad request response", async () => {
-    const response = await request(app).delete("/notes/2");
+    const response = await request(app).delete(
+      "/notes/c61f1fc9-e0d2-43ce-a6c1-b5436cdebe7d"
+    );
     expect(response.statusCode).toStrictEqual(400);
+  });
+
+  afterAll(async () => {
+    const client = await pool.connect();
+    await client.query(`DROP TABLE notes`);
+    client.release(true);
   });
 });

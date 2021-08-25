@@ -1,7 +1,6 @@
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
-
-import { pool } from "./server";
+import pool from "./db";
 
 const handleSQLQuery = async (sqlQuery, values?) => {
   const client = await pool.connect();
